@@ -1,1268 +1,920 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Danish Ilyas — AI Agent & Python Developer</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-  :root {
-    --bg: #080c14;
-    --bg2: #0d1220;
-    --card: #111827;
-    --border: #1e2d45;
-    --accent: #00d4ff;
-    --accent2: #7c3aed;
-    --accent3: #10b981;
-    --text: #e2e8f0;
-    --muted: #64748b;
-    --white: #ffffff;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-  }
-
-  /* NOISE OVERLAY */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* NAVBAR */
-  nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 100;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(8,12,20,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .logo {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.1rem;
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  .logo span { color: var(--white); }
-
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: color 0.3s;
-  }
-
-  .nav-links a:hover { color: var(--accent); }
-
-  .nav-btn {
-    background: var(--accent);
-    color: var(--bg) !important;
-    padding: 0.5rem 1.2rem;
-    border-radius: 6px;
-    font-weight: 600 !important;
-  }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 6rem 2rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
-    top: 50%;
-    right: -100px;
-    transform: translateY(-50%);
-    pointer-events: none;
-  }
-
-  .hero-glow2 {
-    position: absolute;
-    width: 400px;
-    height: 400px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(124,58,237,0.06) 0%, transparent 70%);
-    bottom: 0;
-    left: 100px;
-    pointer-events: none;
-  }
-
-  .hero-content { max-width: 1200px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
-
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(0,212,255,0.1);
-    border: 1px solid rgba(0,212,255,0.3);
-    color: var(--accent);
-    padding: 0.4rem 1rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .badge-dot {
-    width: 6px; height: 6px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-
-  .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .hero h1 .highlight {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-desc {
-    font-size: 1.15rem;
-    color: var(--muted);
-    max-width: 550px;
-    line-height: 1.7;
-    margin-bottom: 2.5rem;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .hero-btns {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), #0099bb);
-    color: var(--bg);
-    padding: 0.85rem 2rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 0.95rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0,212,255,0.3);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    padding: 0.85rem 2rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border: 1px solid var(--border);
-    transition: border-color 0.3s, color 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
-
-  .hero-stats {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3rem;
-    animation: fadeUp 0.6s 0.4s ease both;
-  }
-
-  .stat-item { text-align: center; }
-  .stat-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--accent);
-  }
-  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* SECTIONS */
-  section { padding: 5rem 2rem; }
-  .container { max-width: 1200px; margin: 0 auto; }
-
-  .section-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-bottom: 0.8rem;
-  }
-
-  .section-title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-  }
-
-  .section-desc {
-    color: var(--muted);
-    font-size: 1.05rem;
-    max-width: 500px;
-    line-height: 1.7;
-    margin-bottom: 3rem;
-  }
-
-  /* SKILLS */
-  #skills { background: var(--bg2); }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .skill-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: border-color 0.3s, transform 0.3s;
-  }
-
-  .skill-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-4px);
-  }
-
-  .skill-icon {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-  }
-
-  .skill-card h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-    color: var(--white);
-  }
-
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .tag {
-    background: rgba(0,212,255,0.08);
-    border: 1px solid rgba(0,212,255,0.2);
-    color: var(--accent);
-    padding: 0.25rem 0.7rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .tag.purple {
-    background: rgba(124,58,237,0.08);
-    border-color: rgba(124,58,237,0.3);
-    color: #a78bfa;
-  }
-
-  .tag.green {
-    background: rgba(16,185,129,0.08);
-    border-color: rgba(16,185,129,0.3);
-    color: var(--accent3);
-  }
-
-  /* PROJECTS */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 1.8rem;
-    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .project-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .project-card:hover {
-    border-color: rgba(0,212,255,0.3);
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  }
-
-  .project-card:hover::before { opacity: 1; }
-
-  .project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-  }
-
-  .project-icon {
-    width: 48px; height: 48px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    background: rgba(0,212,255,0.1);
-    border: 1px solid rgba(0,212,255,0.2);
-  }
-
-  .project-links { display: flex; gap: 0.5rem; }
-
-  .project-link {
-    width: 32px; height: 32px;
-    border-radius: 6px;
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: color 0.3s, border-color 0.3s;
-  }
-
-  .project-link:hover { color: var(--accent); border-color: var(--accent); }
-
-  .project-card h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 0.6rem;
-  }
-
-  .project-card p {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 1.2rem;
-  }
-
-  .project-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .tech-tag {
-    background: var(--bg2);
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-family: 'Space Mono', monospace;
-  }
-
-  /* FIVERR GIGS */
-  #gigs { background: var(--bg2); }
-
-  .gigs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .gig-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-    text-align: center;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: block;
-    color: inherit;
-  }
-
-  .gig-card:hover {
-    border-color: #1dbf73;
-    transform: translateY(-4px);
-    box-shadow: 0 15px 30px rgba(29,191,115,0.1);
-  }
-
-  .gig-emoji { font-size: 2.5rem; margin-bottom: 1rem; }
-
-  .gig-card h3 {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 0.5rem;
-  }
-
-  .gig-card p { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; }
-
-  .gig-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: #1dbf73;
-    color: white;
-    padding: 0.6rem 1.4rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: background 0.2s;
-  }
-
-  .gig-card:hover .gig-btn { background: #17a362; }
-
-  /* CONTACT */
-  .contact-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  .contact-info h2 {
-    font-size: 2rem;
-    font-weight: 800;
-    margin-bottom: 1rem;
-  }
-
-  .contact-info p {
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-  }
-
-  .contact-links-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem 1.2rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    text-decoration: none;
-    color: var(--text);
-    transition: border-color 0.3s;
-  }
-
-  .contact-link:hover { border-color: var(--accent); }
-
-  .contact-link-icon {
-    width: 40px; height: 40px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-  }
-
-  .contact-link span { font-weight: 500; font-size: 0.9rem; }
-  .contact-link small { color: var(--muted); font-size: 0.8rem; display: block; }
-
-  .contact-form {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem;
-  }
-
-  .form-group { margin-bottom: 1.2rem; }
-
-  .form-group label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
-
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 0.8rem 1rem;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.95rem;
-    transition: border-color 0.3s;
-    outline: none;
-  }
-
-  .form-group input:focus,
-  .form-group textarea:focus { border-color: var(--accent); }
-
-  .form-group textarea { height: 120px; resize: vertical; }
-
-  .form-submit {
-    width: 100%;
-    background: linear-gradient(135deg, var(--accent), #0099bb);
-    color: var(--bg);
-    padding: 0.9rem;
-    border-radius: 8px;
-    border: none;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    font-family: 'Outfit', sans-serif;
-  }
-
-  .form-submit:hover { opacity: 0.9; }
-
-  /* FOOTER */
-  footer {
-    background: var(--bg2);
-    border-top: 1px solid var(--border);
-    padding: 2rem;
-    text-align: center;
-  }
-
-  footer p { color: var(--muted); font-size: 0.85rem; }
-  footer span { color: var(--accent); }
-
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .social-link {
-    width: 38px; height: 38px;
-    border-radius: 8px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-  }
-
-  .social-link:hover { color: var(--accent); border-color: var(--accent); }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hero-stats { gap: 1.5rem; }
-    .contact-wrapper { grid-template-columns: 1fr; }
-    .projects-grid { grid-template-columns: 1fr; }
-  }
-
-  /* TICKER */
-  .ticker-wrapper {
-    width: 100%;
-    background: rgba(0,212,255,0.05);
-    border-top: 1px solid rgba(0,212,255,0.15);
-    border-bottom: 1px solid rgba(0,212,255,0.15);
-    padding: 0.75rem 0;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .ticker-wrapper::before,
-  .ticker-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 100px;
-    height: 100%;
-    z-index: 2;
-  }
-
-  .ticker-wrapper::before {
-    left: 0;
-    background: linear-gradient(90deg, var(--bg), transparent);
-  }
-
-  .ticker-wrapper::after {
-    right: 0;
-    background: linear-gradient(-90deg, var(--bg), transparent);
-  }
-
-  .ticker-track {
-    display: flex;
-    gap: 0;
-    animation: ticker 30s linear infinite;
-    width: max-content;
-  }
-
-  .ticker-track:hover { animation-play-state: paused; }
-
-  @keyframes ticker {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
-  }
-
-  .ticker-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0 2rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--muted);
-    white-space: nowrap;
-    font-family: 'Space Mono', monospace;
-  }
-
-  .ticker-item span {
-    color: var(--accent);
-    font-size: 1rem;
-  }
-
-  .ticker-dot {
-    color: var(--accent2) !important;
-    font-size: 0.5rem !important;
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .about-text p {
-    color: var(--muted);
-    line-height: 1.8;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
-
-  .about-text p strong { color: var(--accent); font-weight: 600; }
-
-  .about-highlights {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-
-  .highlight-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1rem;
-    text-align: center;
-  }
-
-  .highlight-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent);
-  }
-
-  .highlight-label {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-top: 0.3rem;
-  }
-
-  @media (max-width: 768px) {
-    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- ═══ SEO META TAGS ═══════════════════════════════════════════════════ -->
+  <title>Danish Ilyas — AI Agent & Python Developer | Gujranwala, Pakistan</title>
+  <meta name="description" content="Danish Ilyas is an AI Agent & Python Developer from Gujranwala, Pakistan. Expert in LangChain, OpenAI GPT-4, FastAPI, Django, Machine Learning, and RAG systems. Available for freelance and full-time roles." />
+  <meta name="keywords" content="Danish Ilyas, AI Developer Pakistan, Python Developer Gujranwala, LangChain Developer, OpenAI GPT-4, FastAPI Developer, Django Developer, Machine Learning Pakistan, AI Agent Developer, Freelance Python Developer" />
+  <meta name="author" content="Danish Ilyas" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://danish614.github.io/danish-portfolio/" />
+
+  <!-- Open Graph (WhatsApp, LinkedIn, Facebook preview) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://danish614.github.io/danish-portfolio/" />
+  <meta property="og:title" content="Danish Ilyas — AI Agent & Python Developer" />
+  <meta property="og:description" content="Building production-grade AI Agents, ML models & web apps. LangChain · OpenAI GPT-4 · FastAPI · Django. 99.8% accuracy on Medical Diagnosis AI. 4.9★ Fiverr rating." />
+  <meta property="og:image" content="https://avatars.githubusercontent.com/u/240730234?v=4" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Danish Ilyas — AI Agent & Python Developer" />
+  <meta name="twitter:description" content="Building AI Agents, ML models & web apps. LangChain · GPT-4 · FastAPI · Django." />
+  <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/240730234?v=4" />
+
+  <!-- JSON-LD Structured Data (Google rich results) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Danish Ilyas",
+    "jobTitle": "AI Agent & Python Developer",
+    "description": "AI Agent and Python Developer specializing in LangChain, OpenAI GPT-4, FastAPI, Django, and Machine Learning.",
+    "url": "https://danish614.github.io/danish-portfolio/",
+    "image": "https://avatars.githubusercontent.com/u/240730234?v=4",
+    "email": "dannish.ilyas9167890@gmail.com",
+    "telephone": "+923137614124",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Gujranwala",
+      "addressCountry": "PK"
+    },
+    "sameAs": [
+      "https://github.com/danish614",
+      "https://www.linkedin.com/in/danish-ilyas-",
+      "https://www.fiverr.com/asad_ilyas1"
+    ],
+    "knowsAbout": ["Python", "LangChain", "OpenAI GPT-4", "FastAPI", "Django", "Machine Learning", "AI Agents", "RAG", "TensorFlow", "PyTorch"]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:       #09090f;
+      --surface:  #111118;
+      --card:     #16161f;
+      --border:   #1e1e2e;
+      --accent:   #6366f1;
+      --accent2:  #a78bfa;
+      --green:    #34d399;
+      --text:     #e2e2f0;
+      --muted:    #7c7c9a;
+      --heading:  #ffffff;
+      --r:        14px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BG ─────────────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(rgba(99,102,241,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw;
+      height: 64px;
+      background: rgba(9,9,15,.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--heading);
+      text-decoration: none;
+      letter-spacing: -.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); font-size: .9rem;
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-badge {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      background: rgba(52,211,153,.08);
+      border: 1px solid rgba(52,211,153,.2);
+      border-radius: 100px;
+      font-size: .78rem; color: var(--green);
+    }
+    .nav-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; } 50% { opacity:.3; }
+    }
+
+    /* ── HERO ────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 6vw 80px;
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute; top: 20%; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      background: rgba(99,102,241,.1);
+      border: 1px solid rgba(99,102,241,.25);
+      border-radius: 100px;
+      font-size: .8rem; color: var(--accent2);
+      margin-bottom: 28px;
+      letter-spacing: .04em;
+    }
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: clamp(2.4rem, 6vw, 4.5rem);
+      line-height: 1.08; letter-spacing: -.03em;
+      color: var(--heading);
+      margin-bottom: 24px;
+    }
+    h1 .accent { color: var(--accent); }
+    .hero-sub {
+      max-width: 580px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+    }
+    .hero-btns {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    }
+    .btn {
+      padding: 13px 28px; border-radius: 10px;
+      font-size: .9rem; font-weight: 500;
+      text-decoration: none; transition: all .2s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+    }
+    .btn-primary:hover { background: #4f52d9; transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    /* stats row */
+    .stats {
+      display: flex; gap: 40px; flex-wrap: wrap;
+      justify-content: center; margin-top: 64px;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: 2rem;
+      color: var(--heading);
+    }
+    .stat-label { font-size: .78rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* ticker */
+    .ticker-wrap {
+      width: 100%; overflow: hidden;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      margin-top: 64px;
+    }
+    .ticker {
+      display: flex; width: max-content;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker:hover { animation-play-state: paused; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .tick-item {
+      padding: 0 24px;
+      font-size: .82rem; color: var(--muted);
+      white-space: nowrap; display: flex; align-items: center; gap: 10px;
+    }
+    .tick-item span { color: var(--accent); font-size: .6rem; }
+
+    /* ── SECTION COMMON ──────────────────────────────────────────────── */
+    section { padding: 100px 6vw; }
+    .section-label {
+      font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 14px; font-weight: 600;
+    }
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.8rem);
+      color: var(--heading); letter-spacing: -.03em;
+      margin-bottom: 12px;
+    }
+    .section-sub { color: var(--muted); max-width: 520px; margin-bottom: 56px; }
+
+    /* ── ABOUT ───────────────────────────────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr; gap: 32px;
+      max-width: 820px;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 20px; font-size: 1rem; }
+    .about-facts {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px;
+    }
+    .fact-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 20px;
+    }
+    .fact-num {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: 1.6rem;
+      color: var(--accent);
+    }
+    .fact-desc { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── SKILLS ──────────────────────────────────────────────────────── */
+    #skills { background: var(--surface); }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
+    }
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 28px 24px;
+      transition: border-color .2s, transform .2s;
+    }
+    .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .skill-icon { font-size: 1.8rem; margin-bottom: 14px; }
+    .skill-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1rem;
+      color: var(--heading); margin-bottom: 12px;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag {
+      padding: 3px 10px; border-radius: 6px;
+      background: rgba(99,102,241,.1);
+      border: 1px solid rgba(99,102,241,.2);
+      font-size: .75rem; color: var(--accent2);
+    }
+
+    /* ── PROJECTS ────────────────────────────────────────────────────── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px;
+    }
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 26px;
+      display: flex; flex-direction: column;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative; overflow: hidden;
+    }
+    .proj-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0; transition: opacity .25s;
+    }
+    .proj-card:hover { border-color: rgba(99,102,241,.4); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+    .proj-card:hover::before { opacity: 1; }
+    .proj-head {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; margin-bottom: 14px;
+    }
+    .proj-emoji { font-size: 2rem; }
+    .proj-links { display: flex; gap: 10px; }
+    .proj-link {
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; text-decoration: none; color: var(--muted);
+      font-size: .85rem; transition: all .2s;
+    }
+    .proj-link:hover { border-color: var(--accent); color: var(--accent); }
+    .proj-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--heading); margin-bottom: 8px;
+    }
+    .proj-badge {
+      display: inline-block;
+      padding: 2px 10px; border-radius: 6px;
+      background: rgba(52,211,153,.1);
+      border: 1px solid rgba(52,211,153,.2);
+      font-size: .7rem; color: var(--green);
+      margin-bottom: 10px;
+    }
+    .proj-desc { color: var(--muted); font-size: .88rem; flex: 1; margin-bottom: 18px; }
+    .proj-stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .stack-tag {
+      padding: 3px 9px; border-radius: 6px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      font-size: .72rem; color: var(--muted);
+    }
+
+    /* ── FIVERR ──────────────────────────────────────────────────────── */
+    #gigs { background: var(--surface); }
+    .gigs-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;
+    }
+    .gig-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 28px 24px;
+      display: flex; flex-direction: column;
+      transition: all .2s;
+      text-decoration: none;
+    }
+    .gig-card:hover { border-color: #1dbf73; transform: translateY(-4px); }
+    .gig-icon { font-size: 2rem; margin-bottom: 16px; }
+    .gig-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--heading); margin-bottom: 10px;
+    }
+    .gig-desc { color: var(--muted); font-size: .9rem; flex: 1; margin-bottom: 18px; line-height: 1.65; }
+    .gig-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: #1dbf73; font-size: .82rem; font-weight: 500;
+    }
+
+    /* ── CONTACT ─────────────────────────────────────────────────────── */
+    .contact-wrapper {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 14px; margin-top: 32px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); text-decoration: none;
+      color: var(--text); transition: all .2s;
+    }
+    .contact-link:hover { border-color: var(--accent); transform: translateX(6px); }
+    .cl-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(99,102,241,.1); font-size: 1.1rem; flex-shrink: 0;
+    }
+    .cl-label { font-size: .75rem; color: var(--muted); margin-bottom: 2px; }
+    .cl-value { font-size: .9rem; color: var(--text); }
+    .open-to-work {
+      background: var(--card); border: 1px solid rgba(52,211,153,.25);
+      border-radius: 18px; padding: 32px;
+    }
+    .otw-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 800; font-size: 1.3rem;
+      color: var(--heading); margin-bottom: 12px;
+    }
+    .otw-desc { color: var(--muted); font-size: .9rem; margin-bottom: 24px; }
+    .otw-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .otw-tag {
+      padding: 5px 14px; border-radius: 8px;
+      background: rgba(52,211,153,.08);
+      border: 1px solid rgba(52,211,153,.2);
+      font-size: .78rem; color: var(--green);
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────────────── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 32px 6vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    footer p { font-size: .82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: .82rem; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 0 5vw; }
+      .nav-links { display: none; }
+      .about-grid, .contact-wrapper { grid-template-columns: 1fr; }
+      .about-img-wrap { order: -1; max-width: 260px; margin: 0 auto; }
+      .projects-grid { grid-template-columns: 1fr; }
+      section { padding: 70px 5vw; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- ═══ NAV ═══════════════════════════════════════════════════════════════ -->
 <nav>
-  <a href="#" class="logo"><span></span></a>
+  <a href="#" class="nav-logo">Danish<span>.</span>dev</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#projects">Projects</a></li>
     <li><a href="#gigs">Fiverr</a></li>
-    <li><a href="#contact" class="nav-btn">Hire Me</a></li>
+    <li><a href="#contact">Hire Me</a></li>
   </ul>
+  <div class="nav-badge">Open to Full-time &amp; Freelance</div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
+<!-- ═══ HERO ══════════════════════════════════════════════════════════════ -->
+<section class="hero" id="home">
   <div class="hero-glow"></div>
-  <div class="hero-glow2"></div>
-  <div class="hero-content">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      Available for freelance projects
-    </div>
-    <h1>
-      Building <span class="highlight">AI-Powered</span><br>
-      Solutions for the<br>
-      Future
-    </h1>
-    <p class="hero-desc">
-      AI Agent & Python Developer specializing in Chatbots, ML Models, Web Apps & Automation. Delivering intelligent solutions for businesses worldwide.
-    </p>
-    <div class="hero-btns">
-      <a href="#projects" class="btn-primary">
-        <i class="fas fa-rocket"></i> View My Work
-      </a>
-      <a href="#contact" class="btn-secondary">
-        <i class="fas fa-envelope"></i> Get In Touch
-      </a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <div class="stat-num">10+</div>
-        <div class="stat-label">Projects Built</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Satisfaction</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num">24/7</div>
-        <div class="stat-label">Support</div>
-      </div>
-    </div>
+  <div class="hero-tag">🇵🇰 Based in Gujranwala, Pakistan</div>
+  <h1>Building <span class="accent">AI-Powered</span><br>Solutions That Work</h1>
+  <p class="hero-sub">AI Agent & Python Developer specializing in LangChain, OpenAI GPT-4, FastAPI & Django. 99.8% accuracy on Medical Diagnosis AI. 4.9★ on Fiverr.</p>
+  <div class="hero-btns">
+    <a href="#projects" class="btn btn-primary">View My Projects</a>
+    <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+  </div>
+  <div class="stats">
+    <div class="stat-item"><div class="stat-num">10+</div><div class="stat-label">Projects Built</div></div>
+    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">AI / ML Projects</div></div>
+    <div class="stat-item"><div class="stat-num">44</div><div class="stat-label">Fiverr Reviews</div></div>
+    <div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Fiverr Rating</div></div>
+
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrapper">
-  <div class="ticker-track">
-    <!-- First set -->
-    <div class="ticker-item"><span>🤖</span> AI Agents</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>💬</span> LangChain</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🧠</span> OpenAI GPT-4</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🐍</span> Python</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>⚡</span> FastAPI</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🌐</span> Django</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🔥</span> Flask</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>📊</span> TensorFlow</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🔬</span> PyTorch</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🤖</span> RAG</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🕷️</span> Web Scraping</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>⚙️</span> Automation</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🗄️</span> PostgreSQL</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>📡</span> REST APIs</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🔁</span> Celery</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <!-- Duplicate for seamless loop -->
-    <div class="ticker-item"><span>🤖</span> AI Agents</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>💬</span> LangChain</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🧠</span> OpenAI GPT-4</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🐍</span> Python</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>⚡</span> FastAPI</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🌐</span> Django</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🔥</span> Flask</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>📊</span> TensorFlow</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🔬</span> PyTorch</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🤖</span> RAG</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🕷️</span> Web Scraping</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>⚙️</span> Automation</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🗄️</span> PostgreSQL</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>📡</span> REST APIs</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
-    <div class="ticker-item"><span>🔁</span> Celery</div>
-    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+<!-- ═══ TICKER ════════════════════════════════════════════════════════════ -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <div class="tick-item">🤖 AI Agents <span>◆</span></div>
+    <div class="tick-item">💬 LangChain <span>◆</span></div>
+    <div class="tick-item">🧠 OpenAI GPT-4 <span>◆</span></div>
+    <div class="tick-item">🐍 FastAPI <span>◆</span></div>
+    <div class="tick-item">🌐 Django <span>◆</span></div>
+    <div class="tick-item">🔬 PyTorch <span>◆</span></div>
+    <div class="tick-item">📊 TensorFlow <span>◆</span></div>
+    <div class="tick-item">🔍 RAG <span>◆</span></div>
+    <div class="tick-item">🕷️ Web Scraping <span>◆</span></div>
+    <div class="tick-item">🗄️ PostgreSQL <span>◆</span></div>
+    <div class="tick-item">🐳 Docker <span>◆</span></div>
+    <div class="tick-item">⚡ Celery + Redis <span>◆</span></div>
+    <div class="tick-item">🤖 AI Agents <span>◆</span></div>
+    <div class="tick-item">💬 LangChain <span>◆</span></div>
+    <div class="tick-item">🧠 OpenAI GPT-4 <span>◆</span></div>
+    <div class="tick-item">🐍 FastAPI <span>◆</span></div>
+    <div class="tick-item">🌐 Django <span>◆</span></div>
+    <div class="tick-item">🔬 PyTorch <span>◆</span></div>
+    <div class="tick-item">📊 TensorFlow <span>◆</span></div>
+    <div class="tick-item">🔍 RAG <span>◆</span></div>
+    <div class="tick-item">🕷️ Web Scraping <span>◆</span></div>
+    <div class="tick-item">🗄️ PostgreSQL <span>◆</span></div>
+    <div class="tick-item">🐳 Docker <span>◆</span></div>
+    <div class="tick-item">⚡ Celery + Redis <span>◆</span></div>
   </div>
 </div>
 
-<!-- ABOUT -->
+<!-- ═══ ABOUT ══════════════════════════════════════════════════════════════ -->
 <section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-text">
-        <div class="section-tag">// about me</div>
-        <h2 class="section-title">Passionate Developer<br>from Pakistan 🇵🇰</h2>
-        <p>I'm <strong>Danish Ilyas</strong>, an AI Agent & Python Developer based in Gujranwala, Pakistan. I help businesses worldwide automate their workflows, build intelligent chatbots, and develop scalable web applications.</p>
-        <p>Currently pursuing <strong>BS Computer Science at UCP</strong> while actively freelancing. I combine academic knowledge with real-world experience to deliver cutting-edge AI solutions.</p>
-        <p>With expertise in <strong>OpenAI, LangChain, Django, Flask, TensorFlow and PyTorch</strong>, I deliver high-quality solutions with 100% client satisfaction.</p>
-      </div>
-      <div>
-        <div class="about-highlights">
-          <div class="highlight-item">
-            <div class="highlight-num">3+</div>
-            <div class="highlight-label">AI/ML Projects</div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-num">5+</div>
-            <div class="highlight-label">Web Apps Built</div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-num">44</div>
-            <div class="highlight-label">Fiverr Reviews</div>
-          </div>
-          <div class="highlight-item">
-            <div class="highlight-num">4.9⭐</div>
-            <div class="highlight-label">Fiverr Rating</div>
-          </div>
-        </div>
+  <div class="section-label">// about me</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>Passionate Developer<br>from Pakistan 🇵🇰</h2>
+      <p>I'm <strong style="color:var(--heading)">Danish Ilyas</strong>, an AI Agent & Python Developer based in Gujranwala. I build production-grade AI systems, ML models, and full-stack web applications that solve real problems.</p>
+      <p>Currently pursuing <strong style="color:var(--heading)">BS Computer Science at UCP</strong> while actively delivering freelance projects. My flagship project — a Multimodal Medical Diagnosis AI — achieved <strong style="color:var(--accent)">99.8% accuracy</strong> using Late-Fusion deep learning (ResNet50 + Bio_ClinicalBERT).</p>
+      <p>I'm open to <strong style="color:var(--heading)">full-time roles and freelance projects</strong> in AI/ML, backend development, or automation.</p>
+      <div class="about-facts">
+        <div class="fact-card"><div class="fact-num">5+</div><div class="fact-desc">AI & ML Projects</div></div>
+        <div class="fact-card"><div class="fact-num">6+</div><div class="fact-desc">Web Apps Built</div></div>
+        <div class="fact-card"><div class="fact-num">44</div><div class="fact-desc">Fiverr Reviews</div></div>
+        <div class="fact-card"><div class="fact-num">4.9★</div><div class="fact-desc">Fiverr Rating</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SKILLS -->
+<!-- ═══ SKILLS ═════════════════════════════════════════════════════════════ -->
 <section id="skills">
-  <div class="container">
-    <div class="section-tag">// tech stack</div>
-    <h2 class="section-title">Skills & Technologies</h2>
-    <p class="section-desc">Tools and technologies I use to build powerful AI solutions</p>
-    <div class="skills-grid">
-      <div class="skill-card">
-        <div class="skill-icon">🤖</div>
-        <h3>AI & Machine Learning</h3>
-        <div class="skill-tags">
-          <span class="tag">OpenAI GPT-4</span>
-          <span class="tag">LangChain</span>
-          <span class="tag">TensorFlow</span>
-          <span class="tag">PyTorch</span>
-          <span class="tag">Scikit-learn</span>
-          <span class="tag">RAG</span>
-        </div>
+  <div class="section-label">// tech stack</div>
+  <h2>Skills & Technologies</h2>
+  <p class="section-sub">Tools and frameworks I use to build intelligent, scalable systems.</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">🤖</div>
+      <div class="skill-title">AI & LLMs</div>
+      <div class="skill-tags">
+        <span class="tag">OpenAI GPT-4</span><span class="tag">LangChain</span><span class="tag">RAG</span><span class="tag">AI Agents</span><span class="tag">Prompt Engineering</span>
       </div>
-      <div class="skill-card">
-        <div class="skill-icon">🐍</div>
-        <h3>Python Development</h3>
-        <div class="skill-tags">
-          <span class="tag purple">Django</span>
-          <span class="tag purple">Flask</span>
-          <span class="tag purple">FastAPI</span>
-          <span class="tag purple">Pandas</span>
-          <span class="tag purple">NumPy</span>
-          <span class="tag purple">Selenium</span>
-        </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🧠</div>
+      <div class="skill-title">Machine Learning / DL</div>
+      <div class="skill-tags">
+        <span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">Scikit-learn</span><span class="tag">ResNet50</span><span class="tag">BERT</span><span class="tag">OpenCV</span>
       </div>
-      <div class="skill-card">
-        <div class="skill-icon">⚡</div>
-        <h3>Automation & APIs</h3>
-        <div class="skill-tags">
-          <span class="tag green">REST APIs</span>
-          <span class="tag green">Web Scraping</span>
-          <span class="tag green">Celery</span>
-          <span class="tag green">PostgreSQL</span>
-          <span class="tag green">SQLite</span>
-          <span class="tag green">JWT Auth</span>
-        </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">⚡</div>
+      <div class="skill-title">Backend Development</div>
+      <div class="skill-tags">
+        <span class="tag">FastAPI</span><span class="tag">Django</span><span class="tag">Flask</span><span class="tag">REST APIs</span><span class="tag">WebSocket</span><span class="tag">JWT Auth</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🗄️</div>
+      <div class="skill-title">Databases & Async</div>
+      <div class="skill-tags">
+        <span class="tag">PostgreSQL</span><span class="tag">SQLite</span><span class="tag">SQLAlchemy</span><span class="tag">Redis</span><span class="tag">Celery</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🌐</div>
+      <div class="skill-title">Frontend & UI</div>
+      <div class="skill-tags">
+        <span class="tag">HTML5</span><span class="tag">CSS3</span><span class="tag">JavaScript</span><span class="tag">React (basics)</span><span class="tag">Streamlit</span><span class="tag">AJAX</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-icon">🐳</div>
+      <div class="skill-title">DevOps & Tools</div>
+      <div class="skill-tags">
+        <span class="tag">Docker</span><span class="tag">Git</span><span class="tag">Selenium</span><span class="tag">Jupyter</span><span class="tag">VS Code</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- ═══ PROJECTS ═══════════════════════════════════════════════════════════ -->
 <section id="projects">
-  <div class="container">
-    <div class="section-tag">// my work</div>
-    <h2 class="section-title">Featured Projects</h2>
-    <p class="section-desc">Real-world projects built with modern technologies</p>
+  <div class="section-label">// my work</div>
+  <h2>Featured Projects</h2>
+  <p class="section-sub">Real-world systems built with production-grade architecture.</p>
+  <div class="projects-grid">
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">🫁</div>
+        <div class="proj-links"></div>
+      </div>
+      <div class="proj-badge">99.8% Accuracy</div>
+      <div class="proj-title">Multimodal Medical Diagnosis AI</div>
+      <div class="proj-desc">Late-Fusion deep learning combining Chest X-ray images (ResNet50) and clinical notes (Bio_ClinicalBERT) to classify 14 lung conditions. Deployed via FastAPI + Streamlit.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">PyTorch</span><span class="stack-tag">FastAPI</span><span class="stack-tag">Streamlit</span><span class="stack-tag">ResNet50</span><span class="stack-tag">Bio_ClinicalBERT</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">🏥</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/hospital-management-system" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">Production Ready</div>
+      <div class="proj-title">Hospital Management System</div>
+      <div class="proj-desc">Full-stack HMS with 20+ database tables, 5 RBAC roles, JWT auth, real-time WebSocket notifications, SMS alerts. Built for actual hospital deployment.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">React</span><span class="stack-tag">WebSocket</span><span class="stack-tag">JWT</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">💼</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/job-agent" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">AI Agent</div>
+      <div class="proj-title">Job Agent — AI Resume Matcher</div>
+      <div class="proj-desc">LangChain AI agent that scrapes live job postings, scores resume-job fit, auto-generates cover letters and skill gap reports. Dockerized for deployment.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">LangChain</span><span class="stack-tag">Docker</span><span class="stack-tag">OpenAI</span><span class="stack-tag">PDF Parser</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">🎓</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/eduassist" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">GPT-4 Powered</div>
+      <div class="proj-title">EduAssist — AI Learning Assistant</div>
+      <div class="proj-desc">Educational chatbot with GPT-4, automated test evaluation, OCR photo grading, adaptive learning paths, and performance analytics dashboard.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">OpenAI GPT-4</span><span class="stack-tag">Streamlit</span><span class="stack-tag">OCR</span><span class="stack-tag">SQLite</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">🛒</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/ecommerce-project" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">Full Stack</div>
+      <div class="proj-title">LUXE E-Commerce Store</div>
+      <div class="proj-desc">Production-ready e-commerce platform with AJAX cart, email verification, order tracking, discount system, and full Django admin panel.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Django</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">JavaScript</span><span class="stack-tag">AJAX</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">📈</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/Ecommerce-Price-Tracker" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">Automation</div>
+      <div class="proj-title">E-Commerce Price Tracker</div>
+      <div class="proj-desc">Monitors Amazon & Daraz prices every 6h via Celery Beat. Email alerts on price drops, history charts, anti-bot Selenium scraping, CLI interface.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">FastAPI</span><span class="stack-tag">Celery</span><span class="stack-tag">Redis</span><span class="stack-tag">Selenium</span><span class="stack-tag">PostgreSQL</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">❤️</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/Heart-disease-prediction-Model-" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">ML Model</div>
+      <div class="proj-title">Heart Disease Prediction</div>
+      <div class="proj-desc">XGBoost ML model that takes patient clinical data (age, BP, cholesterol, ECG) and gives instant Low/Moderate/High risk assessment. 85% accuracy.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Python</span><span class="stack-tag">XGBoost</span><span class="stack-tag">Scikit-learn</span><span class="stack-tag">Pandas</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">🍽️</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/restaurant_project" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-badge">Full Stack</div>
+      <div class="proj-title">Restaurant Website</div>
+      <div class="proj-desc">Complete responsive restaurant website with online ordering, table booking, customer reviews, WhatsApp integration, Google Maps & full Django admin panel.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Django</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">JavaScript</span><span class="stack-tag">CSS3</span>
+      </div>
+    </div>
+
+    <div class="proj-card">
+      <div class="proj-head">
+        <div class="proj-emoji">🌤️</div>
+        <div class="proj-links">
+          <a href="https://github.com/danish614/python-project" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
+        </div>
+      </div>
+      <div class="proj-title">Weather App</div>
+      <div class="proj-desc">Real-time weather updates with clean UI, current conditions, forecasts, and location-based data via REST API.</div>
+      <div class="proj-stack">
+        <span class="stack-tag">Python</span><span class="stack-tag">REST API</span><span class="stack-tag">Tkinter</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Python Practice Projects -->
+  <div style="margin-top: 60px;">
+    <p class="section-label">// python practice projects</p>
+    <h2 style="font-size: 1.6rem; margin-bottom: 10px;">More Projects</h2>
+    <p class="section-sub">Python mini-projects built during learning & practice.</p>
     <div class="projects-grid">
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🫁</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">🎥</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/Screen-record-project-" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>Multimodal Medical Diagnosis AI</h3>
-        <p>AI system combining Chest X-ray images & clinical notes to predict 14 lung conditions using Late-Fusion deep learning (ResNet50 + Bio_ClinicalBERT). 99.8% model accuracy.</p>
-        <div class="project-tech">
-          <span class="tech-tag">PyTorch</span>
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">Streamlit</span>
-          <span class="tech-tag">ResNet50</span>
-          <span class="tech-tag">BERT</span>
+        <div class="proj-title">Screen Recorder</div>
+        <div class="proj-desc">Records computer screen in real-time using mss and OpenCV. Saves as .avi video with live preview window while recording.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">OpenCV</span><span class="stack-tag">mss</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🏥</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">🕐</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/Analog-clock" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>Hospital Management System</h3>
-        <p>Complete production-ready Hospital Management System with 20+ database tables, JWT auth, Role-Based Access Control (5 roles), real-time WebSocket features & SMS notifications.</p>
-        <div class="project-tech">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">SQLAlchemy</span>
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">WebSocket</span>
-          <span class="tech-tag">JWT</span>
+        <div class="proj-title">Analog Clock with Alarm</div>
+        <div class="proj-desc">Full-screen analog clock with colorful hour markings, real-time moving hands, and alarm system with sound and animated effects.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Tkinter</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🛒</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">👁️</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/Computer-vision-project-" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>LUXE E-Commerce Store</h3>
-        <p>Modern production-ready e-commerce platform with Django & PostgreSQL. Features AJAX cart, user auth with email verification, order tracking, discount system & full admin panel.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Django</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">AJAX</span>
+        <div class="proj-title">Emotion Detector</div>
+        <div class="proj-desc">Real-time face, eye, and emotion detection via webcam using OpenCV and FER. Shows bounding boxes and dominant emotion label live.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">OpenCV</span><span class="stack-tag">FER</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🎓</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">🐍</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/snake-game" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>EduAssist - AI Learning Assistant</h3>
-        <p>Intelligent educational chatbot with automated test evaluation, OCR for test photo grading, adaptive learning system, and performance analytics powered by OpenAI GPT-4.</p>
-        <div class="project-tech">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">OpenAI</span>
-          <span class="tech-tag">Streamlit</span>
-          <span class="tech-tag">OCR</span>
-          <span class="tech-tag">SQLite</span>
+        <div class="proj-title">Snake Animation</div>
+        <div class="proj-desc">Realistic dark snake that smoothly follows your mouse cursor with wave-like body motion and flicking tongue effect using Pygame.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Pygame</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">❤️</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">⚡</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/Internet-speed-check-app" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>Heart Disease Prediction Model</h3>
-        <p>ML model for heart disease prediction using multiple algorithms with model comparison, feature importance analysis & production-ready pkl model files for deployment.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">Scikit-learn</span>
-          <span class="tech-tag">Pandas</span>
-          <span class="tech-tag">NumPy</span>
+        <div class="proj-title">Internet Speed Checker</div>
+        <div class="proj-desc">Python app that checks and displays your real-time internet download and upload speed with a clean UI.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Speedtest</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">💼</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">⌨️</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/Typing-Speed-Test" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>Job Agent - AI Resume Matcher</h3>
-        <p>FastAPI-based AI agent that scrapes job postings, analyzes resumes and generates match scores, cover letters, skill gaps & strengths using LLM integration.</p>
-        <div class="project-tech">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">LangChain</span>
-          <span class="tech-tag">Docker</span>
-          <span class="tech-tag">PDF Parser</span>
+        <div class="proj-title">Typing Speed Test</div>
+        <div class="proj-desc">Measures WPM, accuracy, and mistakes using Levenshtein distance algorithm. Clean UI with real-time feedback.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Tkinter</span><span class="stack-tag">Levenshtein</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🌤️</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614/python-project" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">🌐</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/Translator-" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>Weather App</h3>
-        <p>Real-time weather updates app with clean UI and fast API integration. Shows current weather, forecasts & location-based data.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">REST API</span>
-          <span class="tech-tag">Tkinter</span>
+        <div class="proj-title">Language Translator</div>
+        <div class="proj-desc">Instantly translates text between languages using Deep Translator library. Simple input — choose target language — get translation.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">Deep Translator</span>
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🤖</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614/jarvis_project" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+      <div class="proj-card">
+        <div class="proj-head">
+          <div class="proj-emoji">🤖</div>
+          <div class="proj-links">
+            <a href="https://github.com/danish614/jarvis_project" class="proj-link" title="GitHub" target="_blank" rel="noopener">⌥</a>
           </div>
         </div>
-        <h3>Jarvis Voice Assistant</h3>
-        <p>Python-based personal voice assistant that listens to commands, performs Google searches, YouTube playback, Gmail access using voice recognition.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">Speech Recognition</span>
-          <span class="tech-tag">pyttsx3</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🍽️</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614/restaurant_project" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>Restaurant Website</h3>
-        <p>Complete responsive restaurant website with online ordering, table booking, customer reviews system, WhatsApp integration, Google Maps & full Django admin panel.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Django</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">CSS3</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🧮</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>Neumorphic Dual Calculator</h3>
-        <p>Beautiful calculator with dual-theme support (Dark & Light) featuring neumorphic design, keyboard support, smooth animations — pure vanilla JS, no frameworks.</p>
-        <div class="project-tech">
-          <span class="tech-tag">HTML5</span>
-          <span class="tech-tag">CSS3</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">Neumorphism</span>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🛒</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>E-Commerce Price Tracker with API Alert</h3>
-        <p>Full-stack price tracking app that monitors Amazon & Daraz prices automatically every 6 hours via Celery Beat. Sends email alerts when price drops below target. Includes price history charts, anti-bot scraping & CLI interface.</p>
-        <div class="project-tech">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">Celery</span>
-          <span class="tech-tag">Redis</span>
-          <span class="tech-tag">Selenium</span>
-          <span class="tech-tag">Chart.js</span>
-          <span class="tech-tag">SMTP</span>
+        <div class="proj-title">Jarvis Voice Assistant</div>
+        <div class="proj-desc">Python voice assistant that listens to commands and performs Google searches, YouTube playback, and Gmail access via voice recognition.</div>
+        <div class="proj-stack">
+          <span class="stack-tag">Python</span><span class="stack-tag">SpeechRecognition</span><span class="stack-tag">pyttsx3</span>
         </div>
       </div>
 
     </div>
   </div>
+
 </section>
 
-<!-- FIVERR GIGS -->
+<!-- ═══ FIVERR ═════════════════════════════════════════════════════════════ -->
 <section id="gigs">
-  <div class="container">
-    <div class="section-tag">// hire me on fiverr</div>
-    <h2 class="section-title">My Fiverr Services</h2>
-    <p class="section-desc">Professional services available for hire — fast delivery, 100% satisfaction</p>
-    <div class="gigs-grid">
-      <a href="https://www.fiverr.com/asad_ilyas1/build-custom-ai-agent-and-chatbot-using-langchain-and-openai" target="_blank" class="gig-card">
-        <div class="gig-emoji">🤖</div>
-        <h3>Custom AI Agent & Chatbot</h3>
-        <p>Build intelligent AI agents & chatbots using LangChain and OpenAI GPT-4 for your business</p>
-        <span class="gig-btn"><i class="fas fa-external-link-alt"></i> View on Fiverr</span>
-      </a>
-      <a href="https://www.fiverr.com/asad_ilyas1/build-custom-ml-model-using-python-pytorch-and-tensorflow" target="_blank" class="gig-card">
-        <div class="gig-emoji">📊</div>
-        <h3>ML Model Training</h3>
-        <p>Build custom Machine Learning models using Python, PyTorch & TensorFlow with 99.8% accuracy</p>
-        <span class="gig-btn"><i class="fas fa-external-link-alt"></i> View on Fiverr</span>
-      </a>
-      <a href="https://www.fiverr.com/asad_ilyas1/develop-scalable-python-web-app-with-rest-api-and-automation" target="_blank" class="gig-card">
-        <div class="gig-emoji">🐍</div>
-        <h3>Python Web App & REST API</h3>
-        <p>Develop scalable Python web applications with REST API and automation using Django/FastAPI</p>
-        <span class="gig-btn"><i class="fas fa-external-link-alt"></i> View on Fiverr</span>
-      </a>
-    </div>
+  <div class="section-label">// hire me on fiverr</div>
+  <h2>Fiverr Services</h2>
+  <p class="section-sub">Fast delivery, 100% satisfaction — 44 five-star reviews.</p>
+  <div class="gigs-grid">
+    <a href="https://www.fiverr.com/asad_ilyas1/build-custom-ai-agent-and-chatbot-using-langchain-and-openai" class="gig-card" target="_blank" rel="noopener">
+      <div class="gig-icon">🤖</div>
+      <div class="gig-title">Custom AI Agent & Chatbot</div>
+      <div class="gig-desc">Build intelligent AI agents and chatbots using LangChain and OpenAI GPT-4 tailored to your business workflow.</div>
+      <div class="gig-cta">View on Fiverr →</div>
+    </a>
+    <a href="https://www.fiverr.com/asad_ilyas1/build-custom-ml-model-using-python-pytorch-and-tensorflow" class="gig-card" target="_blank" rel="noopener">
+      <div class="gig-icon">📊</div>
+      <div class="gig-title">ML Model Training</div>
+      <div class="gig-desc">Custom Machine Learning models using Python, PyTorch & TensorFlow — from data prep to production-ready deployment.</div>
+      <div class="gig-cta">View on Fiverr →</div>
+    </a>
+    <a href="https://www.fiverr.com/asad_ilyas1/develop-scalable-python-web-app-with-rest-api-and-automation" class="gig-card" target="_blank" rel="noopener">
+      <div class="gig-icon">🐍</div>
+      <div class="gig-title">Python Web App & REST API</div>
+      <div class="gig-desc">Scalable Python web applications with REST APIs, automation, and database integration using Django or FastAPI.</div>
+      <div class="gig-cta">View on Fiverr →</div>
+    </a>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ═══ CONTACT ════════════════════════════════════════════════════════════ -->
 <section id="contact">
-  <div class="container">
-    <div class="section-tag">// let's connect</div>
-    <h2 class="section-title">Ready to Build Something Amazing?</h2>
-    <p class="section-desc">Have a project in mind? Reach out via any platform below — I'll get back to you fast! 🚀</p>
-    <div class="contact-links-grid">
-      <a href="https://mail.google.com/mail/?view=cm&to=da8108402@gmail.com" target="_blank" class="contact-link">
-        <div class="contact-link-icon" style="background:rgba(0,212,255,0.1);color:var(--accent)">
-          <i class="fas fa-envelope"></i>
-        </div>
-        <div>
-          <span>Email Me</span>
-          <small>da8108402@gmail.com</small>
-        </div>
-      </a>
-      <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" class="contact-link">
-        <div class="contact-link-icon" style="background:rgba(29,191,115,0.1);color:#1dbf73">
-          <i class="fas fa-briefcase"></i>
-        </div>
-        <div>
-          <span>Hire on Fiverr</span>
-          <small>fiverr.com/asad_ilyas1</small>
-        </div>
-      </a>
-      <a href="https://www.linkedin.com/in/danish-ilyas-" target="_blank" class="contact-link">
-        <div class="contact-link-icon" style="background:rgba(10,102,194,0.1);color:#0a66c2">
-          <i class="fab fa-linkedin"></i>
-        </div>
-        <div>
-          <span>LinkedIn</span>
-          <small>linkedin.com/in/danish-ilyas-</small>
-        </div>
-      </a>
-      <a href="https://github.com/danish614" target="_blank" class="contact-link">
-        <div class="contact-link-icon" style="background:rgba(255,255,255,0.05);color:var(--white)">
-          <i class="fab fa-github"></i>
-        </div>
-        <div>
-          <span>GitHub</span>
-          <small>github.com/danish614</small>
-        </div>
-      </a>
-      <a href="https://www.facebook.com/profile.php?id=61578519676220" target="_blank" class="contact-link">
-        <div class="contact-link-icon" style="background:rgba(24,119,242,0.1);color:#1877f2">
-          <i class="fab fa-facebook"></i>
-        </div>
-        <div>
-          <span>Facebook</span>
-          <small>Danish Ilyas</small>
-        </div>
-      </a>
+  <div class="section-label">// let's connect</div>
+  <div class="contact-wrapper">
+    <div>
+      <h2>Ready to Build<br>Something Amazing?</h2>
+      <p class="section-sub" style="margin-bottom:0">Have a project or job opportunity? Reach out — I respond fast!</p>
+      <div class="contact-links">
+        <a href="mailto:dannish.ilyas9167890@gmail.com" class="contact-link">
+          <div class="cl-icon">📧</div>
+          <div><div class="cl-label">Email</div><div class="cl-value">dannish.ilyas9167890@gmail.com</div></div>
+        </a>
+        <a href="https://github.com/danish614" class="contact-link" target="_blank" rel="noopener">
+          <div class="cl-icon">🐙</div>
+          <div><div class="cl-label">GitHub</div><div class="cl-value">github.com/danish614</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/danish-ilyas-" class="contact-link" target="_blank" rel="noopener">
+          <div class="cl-icon">💼</div>
+          <div><div class="cl-label">LinkedIn</div><div class="cl-value">linkedin.com/in/danish-ilyas-</div></div>
+        </a>
+        <a href="https://www.fiverr.com/asad_ilyas1" class="contact-link" target="_blank" rel="noopener">
+          <div class="cl-icon">🟢</div>
+          <div><div class="cl-label">Fiverr</div><div class="cl-value">fiverr.com/asad_ilyas1 · 4.9★ · 44 reviews</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="open-to-work">
+      <div class="otw-title">🟢 Open to Opportunities</div>
+      <div class="otw-desc">I'm actively looking for full-time roles and freelance projects in AI/ML engineering, backend development, or Python automation.</div>
+      <div class="otw-tags">
+        <span class="otw-tag">Full-time Roles</span>
+        <span class="otw-tag">Freelance Projects</span>
+        <span class="otw-tag">AI / ML Engineering</span>
+        <span class="otw-tag">Backend Development</span>
+        <span class="otw-tag">Remote OK</span>
+      </div>
+      <a href="mailto:dannish.ilyas9167890@gmail.com" class="btn btn-primary" style="width:100%;text-align:center;display:block">Send Me a Message</a>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
+<!-- ═══ FOOTER ═════════════════════════════════════════════════════════════ -->
 <footer>
-  <div class="social-links">
-    <a href="https://github.com/danish614" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-    <a href="https://www.linkedin.com/in/danish-ilyas-" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-    <a href="https://www.facebook.com/profile.php?id=61578519676220" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
-    <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" class="social-link"><i class="fas fa-briefcase"></i></a>
-    <a href="https://mail.google.com/mail/?view=cm&to=da8108402@gmail.com" target="_blank" class="social-link"><i class="fas fa-envelope"></i></a>
+  <p>© 2026 Danish Ilyas · AI Agent & Python Developer · Gujranwala, Pakistan</p>
+  <div class="footer-links">
+    <a href="https://github.com/danish614" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/danish-ilyas-" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" rel="noopener">Fiverr</a>
   </div>
-  <p>&copy; 2026 <span>Danish Ilyas</span>. All rights reserved.</p>
 </footer>
 
 </body>
