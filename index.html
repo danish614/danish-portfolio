@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danish Ilyas — AI Agent & Python Developer</title>
+<meta name="description" content="Danish Ilyas — AI Agent & Python Developer from Gujranwala, Pakistan. Building AI agents, WhatsApp & business automation bots, API integrations and full-stack web apps with Python, FastAPI, LangChain and ASP.NET Core.">
+<meta name="author" content="Danish Ilyas">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Danish Ilyas — AI Agent & Python Developer">
+<meta property="og:description" content="AI agents, automation bots and full-stack apps — shipped for real clients. Python · FastAPI · LangChain · ASP.NET Core.">
+<meta property="og:url" content="https://danish614.github.io/danish-portfolio/">
+<meta property="og:image" content="https://danish614.github.io/danish-portfolio/android-chrome-512x512.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://danish614.github.io/danish-portfolio/">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -11,7 +20,19 @@
 <link rel="manifest" href="site.webmanifest">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script>
+  /* Applied before first paint so the chosen theme never flashes */
+  (function () {
+    try {
+      // dark is the signature look — the lamp starts "off"
+      if (localStorage.getItem('theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch (e) {}
+  })();
+</script>
 <style>
+  /* ============ THEME TOKENS — DARK (default) ============ */
   :root {
     --bg: #080c14;
     --bg2: #0d1220;
@@ -23,6 +44,40 @@
     --text: #e2e8f0;
     --muted: #64748b;
     --white: #ffffff;
+
+    --nav-bg: rgba(8,12,20,0.85);
+    --shadow: 0 20px 40px rgba(0,0,0,0.35);
+    --shadow-soft: 0 10px 30px rgba(0,0,0,0.25);
+    --glass: rgba(255,255,255,0.04);
+    --glass-line: rgba(255,255,255,0.08);
+    --noise-opacity: 0.4;
+    --grid-line: rgba(255,255,255,0.035);
+    --glare: rgba(255,255,255,0.10);
+    --cord: #3b4a63;
+  }
+
+  /* ============ THEME TOKENS — LIGHT ============ */
+  [data-theme="light"] {
+    --bg: #f5f7fb;
+    --bg2: #ecf0f6;
+    --card: #ffffff;
+    --border: #dbe3ee;
+    --accent: #0284a8;
+    --accent2: #6d28d9;
+    --accent3: #059669;
+    --text: #2b3648;
+    --muted: #64748b;
+    --white: #0b1220;
+
+    --nav-bg: rgba(245,247,251,0.85);
+    --shadow: 0 20px 40px rgba(15,35,70,0.10);
+    --shadow-soft: 0 10px 30px rgba(15,35,70,0.07);
+    --glass: rgba(255,255,255,0.65);
+    --glass-line: rgba(15,35,70,0.08);
+    --noise-opacity: 0.12;
+    --grid-line: rgba(15,35,70,0.04);
+    --glare: rgba(255,255,255,0.55);
+    --cord: #9aa8bd;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,6 +91,23 @@
     overflow-x: hidden;
   }
 
+  /* smooth theme cross-fade (added by JS after load so it never flashes on first paint) */
+  .theme-anim,
+  .theme-anim nav,
+  .theme-anim section,
+  .theme-anim footer,
+  .theme-anim .skill-card,
+  .theme-anim .project-card,
+  .theme-anim .gig-card,
+  .theme-anim .contact-link,
+  .theme-anim .highlight-item,
+  .theme-anim .tech-tag,
+  .theme-anim .social-link,
+  .theme-anim .glass-panel {
+    transition: background-color 0.5s ease, background 0.5s ease,
+                color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+  }
+
   /* NOISE OVERLAY */
   body::before {
     content: '';
@@ -44,8 +116,24 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
-    opacity: 0.4;
+    opacity: var(--noise-opacity);
   }
+
+  /* warm light spill from the lamp when the light theme is on */
+  body::after {
+    content: '';
+    position: fixed;
+    top: -220px; right: -120px;
+    width: 620px; height: 620px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,214,140,0.30) 0%, rgba(255,214,140,0.10) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+
+  [data-theme="light"] body::after { opacity: 1; }
 
   /* NAVBAR */
   nav {
@@ -57,9 +145,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(8,12,20,0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
+    padding-right: 6rem;   /* keeps the nav clear of the lamp cord */
   }
 
   .logo {
@@ -158,7 +247,7 @@
   }
 
   .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-size: clamp(2.3rem, 4.4vw, 3.9rem);
     font-weight: 900;
     line-height: 1.05;
     margin-bottom: 1.5rem;
@@ -191,7 +280,7 @@
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), #0099bb);
     color: var(--bg);
-    padding: 0.85rem 2rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 700;
@@ -210,7 +299,7 @@
   .btn-secondary {
     background: transparent;
     color: var(--text);
-    padding: 0.85rem 2rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
@@ -278,7 +367,7 @@
 
   .skills-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
   }
 
@@ -364,8 +453,7 @@
 
   .project-card:hover {
     border-color: rgba(0,212,255,0.3);
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow);
   }
 
   .project-card:hover::before { opacity: 1; }
@@ -388,7 +476,33 @@
     border: 1px solid rgba(0,212,255,0.2);
   }
 
-  .project-links { display: flex; gap: 0.5rem; }
+  .project-links { display: flex; gap: 0.5rem; align-items: center; }
+
+  .project-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(16,185,129,0.1);
+    border: 1px solid rgba(16,185,129,0.3);
+    color: var(--accent3);
+    white-space: nowrap;
+  }
+
+  .project-badge.live {
+    background: rgba(0,212,255,0.1);
+    border-color: rgba(0,212,255,0.3);
+    color: var(--accent);
+  }
+
+  .project-badge.building {
+    background: rgba(124,58,237,0.1);
+    border-color: rgba(124,58,237,0.3);
+    color: #a78bfa;
+  }
 
   .project-link {
     width: 32px; height: 32px;
@@ -636,8 +750,9 @@
 
   /* RESPONSIVE */
   @media (max-width: 768px) {
+    nav { padding-right: 4rem; }
     .nav-links { display: none; }
-    .hero-stats { gap: 1.5rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
     .contact-wrapper { grid-template-columns: 1fr; }
     .projects-grid { grid-template-columns: 1fr; }
   }
@@ -757,9 +872,320 @@
   @media (max-width: 768px) {
     .about-grid { grid-template-columns: 1fr; gap: 2rem; }
   }
+
+  /* ==========================================================
+     LAMP PULL-CORD  —  drag the node down to switch the theme
+     ========================================================== */
+  .lamp {
+    position: fixed;
+    top: 0;
+    right: 0.6rem;
+    z-index: 300;
+    width: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .lamp-mount {
+    width: 26px; height: 8px;
+    border-radius: 0 0 6px 6px;
+    background: linear-gradient(180deg, var(--accent2), var(--cord));
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  }
+
+  .lamp-line {
+    width: 2px;
+    height: 86px;
+    background: linear-gradient(180deg, var(--cord) 0%, var(--cord) 70%, var(--accent) 100%);
+    border-radius: 2px;
+    transform-origin: top center;
+  }
+
+  .lamp-knob {
+    width: 20px; height: 20px;
+    margin-top: -2px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffffff 0%, var(--accent) 45%, #036e8c 100%);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.18),
+                0 0 16px rgba(0,212,255,0.55),
+                inset 0 -2px 4px rgba(0,0,0,0.35);
+    cursor: grab;
+    pointer-events: auto;
+    touch-action: none;
+    position: relative;
+  }
+
+  .lamp-knob:active { cursor: grabbing; }
+
+  .lamp-knob::after {
+    content: '';
+    position: absolute;
+    inset: -14px;
+    border-radius: 50%;
+  }
+
+  .lamp-knob:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+  }
+
+  /* warm bulb look while the light theme is on */
+  [data-theme="light"] .lamp-knob {
+    background: radial-gradient(circle at 35% 30%, #fffdf2 0%, #ffd479 45%, #e39a1d 100%);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.6),
+                0 0 26px rgba(255,196,84,0.85),
+                inset 0 -2px 4px rgba(120,70,0,0.25);
+  }
+
+  [data-theme="light"] .lamp-line {
+    background: linear-gradient(180deg, var(--cord) 0%, var(--cord) 70%, #e8a93b 100%);
+  }
+
+  .lamp-hint {
+    margin-top: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    opacity: 0.75;
+    animation: hintFade 3.2s ease-in-out infinite;
+  }
+
+  .lamp.pulled .lamp-hint { opacity: 0; animation: none; }
+
+  @keyframes hintFade {
+    0%, 100% { opacity: 0.25; transform: translateY(0); }
+    50%      { opacity: 0.85; transform: translateY(3px); }
+  }
+
+  /* flash of light when the lamp is switched */
+  .lamp-flash {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at calc(100% - 4rem) 0%, rgba(255,225,160,0.55), transparent 45%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 299;
+  }
+
+  .lamp-flash.on { animation: flash 0.65s ease-out; }
+
+  @keyframes flash {
+    0%   { opacity: 0; }
+    18%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .lamp-hint { display: none; }
+  }
+
+  /* ==========================================================
+     SCROLL PROGRESS BAR
+     ========================================================== */
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 400;
+    transition: width 0.1s linear;
+  }
+
+  /* ==========================================================
+     3D HERO VISUAL
+     ========================================================== */
+  .hero-content.split {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
+
+  .hero-3d {
+    position: relative;
+    height: 420px;
+    perspective: 1200px;
+    animation: fadeUp 0.8s 0.35s ease both;
+  }
+
+  .stage {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease-out;
+  }
+
+  .glass-panel {
+    position: absolute;
+    border-radius: 18px;
+    background: var(--glass);
+    border: 1px solid var(--glass-line);
+    backdrop-filter: blur(14px);
+    box-shadow: var(--shadow);
+    transform-style: preserve-3d;
+  }
+
+  .panel-main {
+    top: 12%; left: 8%;
+    width: 78%; height: 62%;
+    transform: translateZ(40px);
+    padding: 1rem 1.1rem;
+    overflow: hidden;
+    animation: floaty 7s ease-in-out infinite;
+  }
+
+  .panel-back {
+    top: 26%; left: 22%;
+    width: 70%; height: 55%;
+    transform: translateZ(-40px) rotateY(-6deg);
+    opacity: 0.55;
+    animation: floaty 9s ease-in-out infinite reverse;
+  }
+
+  @keyframes floaty {
+    0%, 100% { translate: 0 0; }
+    50%      { translate: 0 -14px; }
+  }
+
+  .panel-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 0.8rem;
+  }
+
+  .panel-dot {
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .panel-dot:nth-child(1) { background: #ff5f57; }
+  .panel-dot:nth-child(2) { background: #febc2e; }
+  .panel-dot:nth-child(3) { background: #28c840; }
+
+  .code-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.85;
+    color: var(--text);
+    opacity: 0.82;
+    white-space: nowrap;
+  }
+
+  .code-line .k { color: var(--accent2); }
+  .code-line .f { color: var(--accent); }
+  .code-line .s { color: var(--accent3); }
+
+  .orbit-pill {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 999px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-soft);
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: 'Space Mono', monospace;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .pill-1 { top: 4%;  right: 2%;  transform: translateZ(90px);  animation: floaty 5.5s ease-in-out infinite; }
+  .pill-2 { bottom: 22%; left: 0;  transform: translateZ(70px);  animation: floaty 6.5s 0.4s ease-in-out infinite; }
+  .pill-3 { bottom: 6%; right: 10%; transform: translateZ(110px); animation: floaty 5s 0.8s ease-in-out infinite; }
+
+  .pill-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent3);
+    box-shadow: 0 0 8px var(--accent3);
+  }
+
+  @media (max-width: 900px) {
+    .hero-content.split { grid-template-columns: 1fr; }
+    .hero-3d { display: none; }
+  }
+
+  /* ==========================================================
+     3D TILT CARDS + GLARE
+     ========================================================== */
+  .tilt {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.35s cubic-bezier(.2,.8,.3,1), border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .tilt.is-tilting { transition: transform 0.08s linear, border-color 0.3s, box-shadow 0.3s; }
+
+  .tilt .glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), var(--glare), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .tilt:hover .glare { opacity: 1; }
+
+  /* ==========================================================
+     SCROLL REVEAL
+     ========================================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(.2,.8,.3,1), transform 0.7s cubic-bezier(.2,.8,.3,1);
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ==========================================================
+     MOTION SAFETY
+     ========================================================== */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+    .reveal { opacity: 1; transform: none; }
+    .ticker-track { animation: none; }
+  }
 </style>
 </head>
 <body>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- LAMP PULL-CORD THEME SWITCH -->
+<div class="lamp-flash" id="lampFlash"></div>
+<div class="lamp" id="lamp">
+  <div class="lamp-mount"></div>
+  <div class="lamp-line" id="lampLine"></div>
+  <div class="lamp-knob" id="lampKnob"
+       role="switch" aria-checked="false" tabindex="0"
+       aria-label="Pull the cord to switch between dark and light mode"></div>
+  <div class="lamp-hint">pull ↓</div>
+</div>
 
 <!-- NAVBAR -->
 <nav>
@@ -775,9 +1201,11 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-grid-bg"></div>
   <div class="hero-glow"></div>
   <div class="hero-glow2"></div>
-  <div class="hero-content">
+  <div class="hero-content split">
+   <div>
     <div class="hero-badge">
       <span class="badge-dot"></span>
       Available for freelance projects
@@ -788,7 +1216,7 @@
       Future
     </h1>
     <p class="hero-desc">
-      AI Agent & Python Developer specializing in Chatbots, ML Models, Web Apps & Automation. Delivering intelligent solutions for businesses worldwide.
+      AI Agent & Python Developer specializing in AI chatbots, business automation, ML models and full-stack web apps — including live client systems running WhatsApp bots, ERP/POS platforms and government API integrations.
     </p>
     <div class="hero-btns">
       <a href="#projects" class="btn-primary">
@@ -797,21 +1225,53 @@
       <a href="#contact" class="btn-secondary">
         <i class="fas fa-envelope"></i> Get In Touch
       </a>
+      <a href="Danish_Ilyas_Resume.pdf" target="_blank" class="btn-secondary">
+        <i class="fas fa-file-arrow-down"></i> Download Resume
+      </a>
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-num">10+</div>
+        <div class="stat-num">15+</div>
         <div class="stat-label">Projects Built</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">100%</div>
-        <div class="stat-label">Satisfaction</div>
+        <div class="stat-num">3</div>
+        <div class="stat-label">Live Client Systems</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">24/7</div>
-        <div class="stat-label">Support</div>
+        <div class="stat-num">4.9⭐</div>
+        <div class="stat-label">Fiverr Rating</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">On-Time Delivery</div>
       </div>
     </div>
+   </div>
+
+   <!-- 3D VISUAL -->
+   <div class="hero-3d" id="hero3d">
+     <div class="stage" id="heroStage">
+       <div class="glass-panel panel-back"></div>
+       <div class="glass-panel panel-main">
+         <div class="panel-bar">
+           <span class="panel-dot"></span><span class="panel-dot"></span><span class="panel-dot"></span>
+         </div>
+         <div class="code-line"><span class="k">from</span> agent <span class="k">import</span> <span class="f">Danish</span></div>
+         <div class="code-line">&nbsp;</div>
+         <div class="code-line">bot = <span class="f">Danish</span>(</div>
+         <div class="code-line">&nbsp;&nbsp;stack=[<span class="s">"python"</span>, <span class="s">"fastapi"</span>],</div>
+         <div class="code-line">&nbsp;&nbsp;skills=[<span class="s">"ai agents"</span>, <span class="s">"automation"</span>],</div>
+         <div class="code-line">&nbsp;&nbsp;status=<span class="s">"available"</span></div>
+         <div class="code-line">)</div>
+         <div class="code-line">&nbsp;</div>
+         <div class="code-line"><span class="k">await</span> bot.<span class="f">ship</span>(your_idea)</div>
+       </div>
+       <div class="orbit-pill pill-1">🤖 AI Agents</div>
+       <div class="orbit-pill pill-2">💬 WhatsApp API</div>
+       <div class="orbit-pill pill-3"><span class="pill-dot"></span> Open to work</div>
+     </div>
+   </div>
   </div>
 </section>
 
@@ -842,6 +1302,12 @@
     <div class="ticker-item"><span>🕷️</span> Web Scraping</div>
     <div class="ticker-item"><span class="ticker-dot">◆</span></div>
     <div class="ticker-item"><span>⚙️</span> Automation</div>
+    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+    <div class="ticker-item"><span>💬</span> WhatsApp API</div>
+    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+    <div class="ticker-item"><span>🏢</span> ASP.NET Core</div>
+    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+    <div class="ticker-item"><span>🐳</span> Docker</div>
     <div class="ticker-item"><span class="ticker-dot">◆</span></div>
     <div class="ticker-item"><span>🗄️</span> PostgreSQL</div>
     <div class="ticker-item"><span class="ticker-dot">◆</span></div>
@@ -874,6 +1340,12 @@
     <div class="ticker-item"><span class="ticker-dot">◆</span></div>
     <div class="ticker-item"><span>⚙️</span> Automation</div>
     <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+    <div class="ticker-item"><span>💬</span> WhatsApp API</div>
+    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+    <div class="ticker-item"><span>🏢</span> ASP.NET Core</div>
+    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
+    <div class="ticker-item"><span>🐳</span> Docker</div>
+    <div class="ticker-item"><span class="ticker-dot">◆</span></div>
     <div class="ticker-item"><span>🗄️</span> PostgreSQL</div>
     <div class="ticker-item"><span class="ticker-dot">◆</span></div>
     <div class="ticker-item"><span>📡</span> REST APIs</div>
@@ -890,18 +1362,18 @@
       <div class="about-text">
         <div class="section-tag">// about me</div>
         <h2 class="section-title">Passionate Developer<br>from Pakistan 🇵🇰</h2>
-        <p>I'm <strong>Danish Ilyas</strong>, an AI Agent & Python Developer based in Gujranwala, Pakistan. I help businesses worldwide automate their workflows, build intelligent chatbots, and develop scalable web applications.</p>
-        <p>Currently pursuing <strong>BS Computer Science at UCP</strong> while actively freelancing. I combine academic knowledge with real-world experience to deliver cutting-edge AI solutions.</p>
-        <p>With expertise in <strong>OpenAI, LangChain, Django, Flask, TensorFlow and PyTorch</strong>, I deliver high-quality solutions with 100% client satisfaction.</p>
+        <p>I'm <strong>Danish Ilyas</strong>, an AI Agent & Python Developer based in Gujranwala, Pakistan. I help businesses automate the work they currently do by hand — chat bots that run a whole POS, pipelines that publish content on their own, and web apps that replace spreadsheets.</p>
+        <p>My work is not just demos. I ship and maintain <strong>production systems in daily client use</strong>: a bilingual WhatsApp business bot on top of a live ERP, a retail POS wired into Pakistan's <strong>FBR government tax API</strong>, and a multi-platform content syndication engine.</p>
+        <p>Currently pursuing <strong>BS Computer Science at UCP</strong> while freelancing full-time. I work comfortably across two stacks — <strong>Python</strong> (FastAPI, Django, LangChain, PyTorch) and <strong>C# / ASP.NET Core</strong> with SQL Server.</p>
       </div>
       <div>
         <div class="about-highlights">
           <div class="highlight-item">
-            <div class="highlight-num">3+</div>
-            <div class="highlight-label">AI/ML Projects</div>
+            <div class="highlight-num">5+</div>
+            <div class="highlight-label">AI / ML Projects</div>
           </div>
           <div class="highlight-item">
-            <div class="highlight-num">5+</div>
+            <div class="highlight-num">8+</div>
             <div class="highlight-label">Web Apps Built</div>
           </div>
           <div class="highlight-item">
@@ -951,14 +1423,40 @@
       </div>
       <div class="skill-card">
         <div class="skill-icon">⚡</div>
-        <h3>Automation & APIs</h3>
+        <h3>Automation & Integrations</h3>
         <div class="skill-tags">
-          <span class="tag green">REST APIs</span>
+          <span class="tag green">WhatsApp Cloud API</span>
+          <span class="tag green">Meta Graph API</span>
+          <span class="tag green">TikTok API</span>
+          <span class="tag green">FBR / AJK-IRD API</span>
+          <span class="tag green">Webhooks</span>
+          <span class="tag green">Celery &amp; ARQ</span>
           <span class="tag green">Web Scraping</span>
-          <span class="tag green">Celery</span>
-          <span class="tag green">PostgreSQL</span>
-          <span class="tag green">SQLite</span>
-          <span class="tag green">JWT Auth</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🏢</div>
+        <h3>Enterprise & .NET</h3>
+        <div class="skill-tags">
+          <span class="tag">C#</span>
+          <span class="tag">ASP.NET Core MVC</span>
+          <span class="tag">Entity Framework</span>
+          <span class="tag">SQL Server</span>
+          <span class="tag">Windows Services</span>
+          <span class="tag">C++</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗄️</div>
+        <h3>Data & Infrastructure</h3>
+        <div class="skill-tags">
+          <span class="tag purple">PostgreSQL</span>
+          <span class="tag purple">SQL Server</span>
+          <span class="tag purple">Redis</span>
+          <span class="tag purple">Docker</span>
+          <span class="tag purple">REST APIs</span>
+          <span class="tag purple">JWT Auth</span>
+          <span class="tag purple">WebSockets</span>
         </div>
       </div>
     </div>
@@ -970,8 +1468,83 @@
   <div class="container">
     <div class="section-tag">// my work</div>
     <h2 class="section-title">Featured Projects</h2>
-    <p class="section-desc">Real-world projects built with modern technologies</p>
+    <p class="section-desc">Real-world projects built with modern technologies — including systems running in production for paying clients</p>
     <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">💬</div>
+          <div class="project-links">
+            <span class="project-badge live">Client · Live</span>
+          </div>
+        </div>
+        <h3>WhatsApp Business Bot for ERP / POS</h3>
+        <p>Conversational bot on the WhatsApp Cloud API that turns a full ERP into a chat interface. Customers place orders, check balances and ledgers; admins pull daily sales, Z-reports, stock alerts, add products and record purchases — all from WhatsApp. Stateful multi-step flows, full English/Urdu localisation with per-number language memory, and PDF invoices/reports delivered as WhatsApp media.</p>
+        <div class="project-tech">
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">ASP.NET Core</span>
+          <span class="tech-tag">WhatsApp Cloud API</span>
+          <span class="tech-tag">Webhooks</span>
+          <span class="tech-tag">EF Core</span>
+          <span class="tech-tag">SQL Server</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🔁</div>
+          <div class="project-links">
+            <span class="project-badge building">Client · Building</span>
+          </div>
+        </div>
+        <h3>Content Syndication Automation Platform</h3>
+        <p>End-to-end system that finds YouTube creators missing from Facebook &amp; TikTok, then mirrors every new upload to their pages automatically with identical title, description, tags and thumbnail. Per-creator Manual / System / Paused migration modes, CSV bulk import, background download-and-publish workers and a unified cross-platform insights dashboard.</p>
+        <div class="project-tech">
+          <span class="tech-tag">FastAPI</span>
+          <span class="tech-tag">HTMX</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Redis + ARQ</span>
+          <span class="tech-tag">yt-dlp</span>
+          <span class="tech-tag">Meta Graph API</span>
+          <span class="tech-tag">Docker</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🧾</div>
+          <div class="project-links">
+            <span class="project-badge live">Client · Live</span>
+          </div>
+        </div>
+        <h3>FBR Tax Integration for Retail POS</h3>
+        <p>Integrated a retail POS with Pakistan's FBR AJK-IRD digital invoicing API so every sale is reported to the tax authority in real time. Buyer NTN/CNIC/STRN management with searchable lookup at the sale window, walk-in fallback, tax-exempt product flags, HS/PCT code mapping and bulk Excel import/export.</p>
+        <div class="project-tech">
+          <span class="tech-tag">C#</span>
+          <span class="tech-tag">ASP.NET Core MVC</span>
+          <span class="tech-tag">FBR REST API</span>
+          <span class="tech-tag">EF Core</span>
+          <span class="tech-tag">SQL Server</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-icon">🏭</div>
+          <div class="project-links">
+            <span class="project-badge live">Client · Live</span>
+          </div>
+        </div>
+        <h3>ERP / POS Suite for Trading &amp; Retail</h3>
+        <p>Ongoing development on a multi-tenant ASP.NET Core ERP covering sales, purchases, returns, inventory, recipes, customer &amp; supplier ledgers, cash/bank vouchers and reporting. Extended with multi-language support and a Windows-service print agent that renders thermal receipts and Z-reports straight from the browser.</p>
+        <div class="project-tech">
+          <span class="tech-tag">ASP.NET Core</span>
+          <span class="tech-tag">SQL Server</span>
+          <span class="tech-tag">EF Core</span>
+          <span class="tech-tag">Windows Service</span>
+          <span class="tech-tag">QuestPDF</span>
+        </div>
+      </div>
 
       <div class="project-card">
         <div class="project-header">
@@ -1129,6 +1702,24 @@
 
       <div class="project-card">
         <div class="project-header">
+          <div class="project-icon">🅿️</div>
+          <div class="project-links">
+            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+        <h3>Smart Parking Management System</h3>
+        <p>University capstone built on a self-contained C++ HTTP server (no framework) exposing a JSON REST API for slot allocation, vehicle check-in/check-out and fee calculation, paired with a responsive vanilla-JavaScript dashboard.</p>
+        <div class="project-tech">
+          <span class="tech-tag">C++</span>
+          <span class="tech-tag">cpp-httplib</span>
+          <span class="tech-tag">REST API</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">HTML5</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
           <div class="project-icon">🧮</div>
           <div class="project-links">
             <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
@@ -1204,13 +1795,13 @@
     <h2 class="section-title">Ready to Build Something Amazing?</h2>
     <p class="section-desc">Have a project in mind? Reach out via any platform below — I'll get back to you fast! 🚀</p>
     <div class="contact-links-grid">
-      <a href="https://mail.google.com/mail/?view=cm&to=da8108402@gmail.com" target="_blank" class="contact-link">
+      <a href="https://mail.google.com/mail/?view=cm&to=dannish.ilyas9167890@gmail.com" target="_blank" class="contact-link">
         <div class="contact-link-icon" style="background:rgba(0,212,255,0.1);color:var(--accent)">
           <i class="fas fa-envelope"></i>
         </div>
         <div>
           <span>Email Me</span>
-          <small>da8108402@gmail.com</small>
+          <small>dannish.ilyas9167890@gmail.com</small>
         </div>
       </a>
       <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" class="contact-link">
@@ -1222,13 +1813,13 @@
           <small>fiverr.com/asad_ilyas1</small>
         </div>
       </a>
-      <a href="https://www.linkedin.com/in/danish-ilyas-" target="_blank" class="contact-link">
+      <a href="https://www.linkedin.com/in/danish-ilyas-ai/" target="_blank" class="contact-link">
         <div class="contact-link-icon" style="background:rgba(10,102,194,0.1);color:#0a66c2">
           <i class="fab fa-linkedin"></i>
         </div>
         <div>
           <span>LinkedIn</span>
-          <small>linkedin.com/in/danish-ilyas-</small>
+          <small>linkedin.com/in/danish-ilyas-ai</small>
         </div>
       </a>
       <a href="https://github.com/danish614" target="_blank" class="contact-link">
@@ -1240,13 +1831,22 @@
           <small>github.com/danish614</small>
         </div>
       </a>
-      <a href="https://www.facebook.com/profile.php?id=61578519676220" target="_blank" class="contact-link">
+      <a href="https://www.facebook.com/profile.php?id=61593094483253" target="_blank" class="contact-link">
         <div class="contact-link-icon" style="background:rgba(24,119,242,0.1);color:#1877f2">
           <i class="fab fa-facebook"></i>
         </div>
         <div>
           <span>Facebook</span>
-          <small>Danish Ilyas</small>
+          <small>Hafiz Danish Ali</small>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/danish.ilyas.ai/" target="_blank" class="contact-link">
+        <div class="contact-link-icon" style="background:rgba(228,64,95,0.1);color:#e4405f">
+          <i class="fab fa-instagram"></i>
+        </div>
+        <div>
+          <span>Instagram</span>
+          <small>@danish.ilyas.ai</small>
         </div>
       </a>
     </div>
@@ -1257,13 +1857,226 @@
 <footer>
   <div class="social-links">
     <a href="https://github.com/danish614" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
-    <a href="https://www.linkedin.com/in/danish-ilyas-" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-    <a href="https://www.facebook.com/profile.php?id=61578519676220" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.linkedin.com/in/danish-ilyas-ai/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+    <a href="https://www.facebook.com/profile.php?id=61593094483253" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.instagram.com/danish.ilyas.ai/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
     <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" class="social-link"><i class="fas fa-briefcase"></i></a>
-    <a href="https://mail.google.com/mail/?view=cm&to=da8108402@gmail.com" target="_blank" class="social-link"><i class="fas fa-envelope"></i></a>
+    <a href="https://mail.google.com/mail/?view=cm&to=dannish.ilyas9167890@gmail.com" target="_blank" class="social-link"><i class="fas fa-envelope"></i></a>
   </div>
-  <p>&copy; 2026 <span>Danish Ilyas</span>. All rights reserved.</p>
+
 </footer>
+
+<script>
+(function () {
+  'use strict';
+
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isTouch = window.matchMedia('(hover: none)').matches;
+
+  /* ==========================================================
+     1. LAMP PULL-CORD  →  theme switch
+     Drag the knob down (or tap / press Enter) and release.
+     A small spring simulation makes the cord bounce back.
+     ========================================================== */
+  var lamp  = document.getElementById('lamp');
+  var knob  = document.getElementById('lampKnob');
+  var line  = document.getElementById('lampLine');
+  var flash = document.getElementById('lampFlash');
+
+  var BASE_LEN = 86;    // resting cord length in px
+  var MAX_PULL = 130;   // how far it can stretch
+  var TRIGGER  = 42;    // pull further than this = switch
+
+  var offset = 0;       // current stretch
+  var velocity = 0;
+  var dragging = false;
+  var startY = 0;
+  var moved = 0;
+  var rafId = null;
+
+  function render() {
+    line.style.height = (BASE_LEN + offset) + 'px';
+    knob.style.transform = 'scale(' + (1 + Math.min(Math.max(offset, 0), MAX_PULL) / 900) + ')';
+  }
+
+  function spring() {
+    var force = -offset * 0.22;
+    velocity = (velocity + force) * 0.72;
+    offset += velocity;
+    if (Math.abs(offset) < 0.4 && Math.abs(velocity) < 0.4) {
+      offset = 0; velocity = 0; render();
+      rafId = null;
+      return;
+    }
+    render();
+    rafId = requestAnimationFrame(spring);
+  }
+
+  function releaseSpring() {
+    if (rafId) cancelAnimationFrame(rafId);
+    if (reduceMotion) { offset = 0; render(); return; }
+    rafId = requestAnimationFrame(spring);
+  }
+
+  function applyTheme(theme, animate) {
+    if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    else document.documentElement.removeAttribute('data-theme');
+    knob.setAttribute('aria-checked', theme === 'light' ? 'true' : 'false');
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    if (animate && !reduceMotion) {
+      flash.classList.remove('on');
+      void flash.offsetWidth;            // restart the animation
+      flash.classList.add('on');
+    }
+  }
+
+  function toggleTheme() {
+    var isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    applyTheme(isLight ? 'dark' : 'light', true);
+    lamp.classList.add('pulled');
+  }
+
+  knob.addEventListener('pointerdown', function (e) {
+    dragging = true;
+    moved = 0;
+    startY = e.clientY;
+    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    velocity = 0;
+    knob.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+
+  window.addEventListener('pointermove', function (e) {
+    if (!dragging) return;
+    var dy = e.clientY - startY;
+    moved = Math.max(moved, Math.abs(dy));
+    offset = dy > 0
+      ? (dy > MAX_PULL ? MAX_PULL + (dy - MAX_PULL) * 0.18 : dy)   // resistance past the limit
+      : dy * 0.25;
+    render();
+  });
+
+  window.addEventListener('pointerup', function () {
+    if (!dragging) return;
+    dragging = false;
+    if (offset >= TRIGGER || moved < 5) toggleTheme();   // a real pull, or a simple tap
+    velocity = -6;
+    releaseSpring();
+  });
+
+  knob.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    offset = 70; render();
+    toggleTheme();
+    velocity = -6;
+    releaseSpring();
+  });
+
+  knob.setAttribute('aria-checked',
+    document.documentElement.getAttribute('data-theme') === 'light' ? 'true' : 'false');
+
+  // colour transitions only after the first paint, so no flash on load
+  requestAnimationFrame(function () { document.body.classList.add('theme-anim'); });
+
+  /* ==========================================================
+     2. SCROLL PROGRESS BAR
+     ========================================================== */
+  var bar = document.getElementById('scrollProgress');
+  function onScroll() {
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  /* ==========================================================
+     3. SCROLL REVEAL
+     ========================================================== */
+  var targets = document.querySelectorAll(
+    '.section-tag, .section-title, .section-desc, .skill-card, .project-card, .gig-card, .contact-link, .about-text p, .highlight-item'
+  );
+  Array.prototype.forEach.call(targets, function (el) { el.classList.add('reveal'); });
+
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var delay = (Array.prototype.indexOf.call(el.parentNode.children, el) % 4) * 70;
+        setTimeout(function () { el.classList.add('visible'); }, delay);
+        io.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+    Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
+  } else {
+    Array.prototype.forEach.call(targets, function (el) { el.classList.add('visible'); });
+  }
+
+  /* ==========================================================
+     4. 3D TILT ON CARDS
+     ========================================================== */
+  if (!isTouch && !reduceMotion) {
+    var cards = document.querySelectorAll('.project-card, .skill-card, .gig-card');
+    Array.prototype.forEach.call(cards, function (card) {
+      card.classList.add('tilt');
+      card.style.position = 'relative';
+      var glare = document.createElement('div');
+      glare.className = 'glare';
+      card.appendChild(glare);
+
+      card.addEventListener('pointermove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        card.classList.add('is-tilting');
+        card.style.transform =
+          'perspective(900px) rotateX(' + ((0.5 - py) * 7).toFixed(2) + 'deg)' +
+          ' rotateY(' + ((px - 0.5) * 9).toFixed(2) + 'deg) translateY(-6px) scale(1.012)';
+        glare.style.setProperty('--gx', (px * 100) + '%');
+        glare.style.setProperty('--gy', (py * 100) + '%');
+      });
+
+      card.addEventListener('pointerleave', function () {
+        card.classList.remove('is-tilting');
+        card.style.transform = '';
+      });
+    });
+  }
+
+  /* ==========================================================
+     5. HERO 3D PARALLAX
+     ========================================================== */
+  var stage = document.getElementById('heroStage');
+  var hero = document.querySelector('.hero');
+  if (stage && hero && !isTouch && !reduceMotion) {
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      stage.style.transform =
+        'rotateY(' + (px * 16).toFixed(2) + 'deg) rotateX(' + (-py * 12).toFixed(2) + 'deg)';
+    });
+    hero.addEventListener('pointerleave', function () { stage.style.transform = ''; });
+  }
+
+  /* ==========================================================
+     6. MAGNETIC BUTTONS
+     ========================================================== */
+  if (!isTouch && !reduceMotion) {
+    var magnets = document.querySelectorAll('.btn-primary, .btn-secondary, .nav-btn');
+    Array.prototype.forEach.call(magnets, function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width / 2;
+        var y = e.clientY - r.top - r.height / 2;
+        el.style.transform = 'translate(' + (x * 0.12).toFixed(1) + 'px,' + (y * 0.2).toFixed(1) + 'px)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
