@@ -8,7 +8,7 @@
 <meta name="author" content="Danish Ilyas">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Danish Ilyas — AI Agent & Python Developer">
-<meta property="og:description" content="AI agents, automation bots and full-stack apps — shipped for real clients. Python · FastAPI · LangChain · ASP.NET Core.">
+<meta property="og:description" content="AI agents, automation bots and full-stack apps — shipped for real clients, with recorded video demos of every project. Python · FastAPI · LangChain · ASP.NET Core.">
 <meta property="og:url" content="https://danish614.github.io/danish-portfolio/">
 <meta property="og:image" content="https://danish614.github.io/danish-portfolio/android-chrome-512x512.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -549,6 +549,260 @@
     font-size: 0.75rem;
     font-family: 'Space Mono', monospace;
   }
+
+
+  /* ============ PROJECT VIDEO DEMOS ============ */
+  .demo-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+  }
+  .demo-row.two { grid-template-columns: 1fr 1fr; }
+
+  .project-demo {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    line-height: 0;
+    cursor: pointer;
+    position: relative;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .project-demo img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    filter: saturate(0.85) brightness(0.8);
+    transition: transform 0.45s, filter 0.3s;
+  }
+  .project-demo:hover { border-color: rgba(0,212,255,0.45); }
+  .project-demo:hover img { transform: scale(1.045); filter: saturate(1) brightness(1); }
+  .project-demo:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .demo-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .demo-play span {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 4px;
+    font-size: 0.95rem;
+    color: var(--accent);
+    background: rgba(0,212,255,0.16);
+    border: 1px solid rgba(0,212,255,0.5);
+    backdrop-filter: blur(6px);
+    transition: transform 0.3s, background 0.3s;
+  }
+  .project-demo:hover .demo-play span {
+    transform: scale(1.12);
+    background: rgba(0,212,255,0.3);
+  }
+  .demo-row.two .demo-play span { width: 40px; height: 40px; font-size: 0.75rem; }
+
+  .demo-meta {
+    position: absolute;
+    left: 9px; bottom: 9px; right: 9px;
+    display: flex;
+    gap: 0.35rem;
+    align-items: center;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .demo-meta b,
+  .demo-meta i {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    font-style: normal;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(8,12,20,0.8);
+    border: 1px solid var(--glass-line);
+    backdrop-filter: blur(6px);
+    white-space: nowrap;
+  }
+  .demo-meta b { color: var(--accent3); border-color: rgba(16,185,129,0.4); }
+  .demo-meta i { color: var(--text); margin-left: auto; }
+
+  /* ---- lightbox ---- */
+  .vbox {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: rgba(4,6,12,0.93);
+    backdrop-filter: blur(10px);
+  }
+  .vbox.open { display: flex; }
+  .vbox-inner { width: min(1120px, 100%); }
+  .vbox-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .vbox-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .vbox-title small {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+  .vbox-close {
+    flex: none;
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .vbox-close:hover { color: var(--accent); border-color: var(--accent); }
+  .vbox video {
+    width: 100%;
+    max-height: 76vh;
+    display: block;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  @media (max-width: 560px) {
+    .demo-row.two { grid-template-columns: 1fr; }
+    .vbox { padding: 0.9rem; }
+  }
+
+
+  /* ============ ALSO BUILT ============ */
+  .also-built {
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .also-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.35rem;
+  }
+  .also-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.6rem;
+  }
+  .also-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 0.9rem;
+  }
+  .also-card {
+    position: relative;
+    display: block;
+    padding: 1.1rem 1.2rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  a.also-card:hover {
+    border-color: rgba(0,212,255,0.35);
+    transform: translateY(-2px);
+  }
+  .also-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    padding-right: 1.4rem;
+  }
+  .also-card > i {
+    position: absolute;
+    top: 1.15rem; right: 1.2rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    transition: color 0.3s;
+  }
+  a.also-card:hover > i,
+  a.also-card:hover h4 { color: var(--accent); }
+  .also-card p {
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin-bottom: 0.7rem;
+  }
+  .also-tech {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    opacity: 0.8;
+  }
+
+
+  /* ============ ACCOUNT NOTE ============ */
+  .acct-note {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+    max-width: 760px;
+    margin: -0.6rem 0 2rem;
+    padding: 0.95rem 1.15rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+  }
+  .acct-note > i {
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-top: 0.22rem;
+    flex: none;
+  }
+  .acct-note p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .acct-note strong { color: var(--text); font-weight: 600; }
+  .acct-note a { color: var(--accent); text-decoration: none; }
+  .acct-note a:hover { text-decoration: underline; }
 
   /* FIVERR GIGS */
   #gigs { background: var(--bg2); }
@@ -1239,6 +1493,10 @@
         <div class="stat-label">Live Client Systems</div>
       </div>
       <div class="stat-item">
+        <div class="stat-num">11</div>
+        <div class="stat-label">Video Demos</div>
+      </div>
+      <div class="stat-item">
         <div class="stat-num">4.9⭐</div>
         <div class="stat-label">Fiverr Rating</div>
       </div>
@@ -1468,7 +1726,7 @@
   <div class="container">
     <div class="section-tag">// my work</div>
     <h2 class="section-title">Featured Projects</h2>
-    <p class="section-desc">Real-world projects built with modern technologies — including systems running in production for paying clients</p>
+    <p class="section-desc">Every project below carries a <strong>recorded screen demo</strong> — click any thumbnail to watch the system actually running. Client systems in production come first.</p>
     <div class="projects-grid">
 
       <div class="project-card">
@@ -1480,6 +1738,13 @@
         </div>
         <h3>WhatsApp Business Bot for ERP / POS</h3>
         <p>Conversational bot on the WhatsApp Cloud API that turns a full ERP into a chat interface. Customers place orders, check balances and ledgers; admins pull daily sales, Z-reports, stock alerts, add products and record purchases — all from WhatsApp. Stateful multi-step flows, full English/Urdu localisation with per-number language memory, and PDF invoices/reports delivered as WhatsApp media.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/whatsapp-bot.mp4" data-title="WhatsApp Business Bot for ERP / POS" data-label="Live client demo">
+            <img src="videos/whatsapp-bot.jpg" alt="WhatsApp Business Bot for ERP / POS — live client demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Live client demo</b><i>2:40</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">C#</span>
           <span class="tech-tag">ASP.NET Core</span>
@@ -1499,6 +1764,13 @@
         </div>
         <h3>Content Syndication Automation Platform</h3>
         <p>End-to-end system that finds YouTube creators missing from Facebook &amp; TikTok, then mirrors every new upload to their pages automatically with identical title, description, tags and thumbnail. Per-creator Manual / System / Paused migration modes, CSV bulk import, background download-and-publish workers and a unified cross-platform insights dashboard.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/syndicate.mp4" data-title="Content Syndication Automation Platform" data-label="Live client demo">
+            <img src="videos/syndicate.jpg" alt="Content Syndication Automation Platform — live client demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Live client demo</b><i>3:57</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">FastAPI</span>
           <span class="tech-tag">HTMX</span>
@@ -1519,6 +1791,13 @@
         </div>
         <h3>FBR Tax Integration for Retail POS</h3>
         <p>Integrated a retail POS with Pakistan's FBR AJK-IRD digital invoicing API so every sale is reported to the tax authority in real time. Buyer NTN/CNIC/STRN management with searchable lookup at the sale window, walk-in fallback, tax-exempt product flags, HS/PCT code mapping and bulk Excel import/export.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/fbr-tax.mp4" data-title="FBR Tax Integration for Retail POS" data-label="Live client demo">
+            <img src="videos/fbr-tax.jpg" alt="FBR Tax Integration for Retail POS — live client demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Live client demo</b><i>2:04</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">C#</span>
           <span class="tech-tag">ASP.NET Core MVC</span>
@@ -1537,6 +1816,13 @@
         </div>
         <h3>ERP / POS Suite for Trading &amp; Retail</h3>
         <p>Ongoing development on a multi-tenant ASP.NET Core ERP covering sales, purchases, returns, inventory, recipes, customer &amp; supplier ledgers, cash/bank vouchers and reporting. Extended with multi-language support and a Windows-service print agent that renders thermal receipts and Z-reports straight from the browser.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/erp-pakchina.mp4" data-title="ERP / POS Suite for Trading &amp; Retail" data-label="Dashboard">
+            <img src="videos/erp-pakchina.jpg" alt="ERP / POS Suite for Trading and Retail — dashboard screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Dashboard</b><i>2:12</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">ASP.NET Core</span>
           <span class="tech-tag">SQL Server</span>
@@ -1554,7 +1840,14 @@
           </div>
         </div>
         <h3>Multimodal Medical Diagnosis AI</h3>
-        <p>AI system combining Chest X-ray images & clinical notes to predict 14 lung conditions using Late-Fusion deep learning (ResNet50 + Bio_ClinicalBERT). 99.8% model accuracy.</p>
+        <p>AI system combining chest X-ray images &amp; clinical notes to predict 14 lung findings using late-fusion deep learning (ResNet50 image encoder + Bio_ClinicalBERT text encoder), trained on MIMIC-CXR and evaluated with macro-AUC.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/lungxpert.mp4" data-title="Multimodal Medical Diagnosis AI" data-label="Project demo">
+            <img src="videos/lungxpert.jpg" alt="Multimodal Medical Diagnosis AI — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>3:44</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">PyTorch</span>
           <span class="tech-tag">FastAPI</span>
@@ -1573,6 +1866,13 @@
         </div>
         <h3>Hospital Management System</h3>
         <p>Complete production-ready Hospital Management System with 20+ database tables, JWT auth, Role-Based Access Control (5 roles), real-time WebSocket features & SMS notifications.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/hospital.mp4" data-title="Hospital Management System" data-label="Project demo">
+            <img src="videos/hospital.jpg" alt="Hospital Management System — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>4:54</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">FastAPI</span>
           <span class="tech-tag">SQLAlchemy</span>
@@ -1582,22 +1882,6 @@
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🛒</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>LUXE E-Commerce Store</h3>
-        <p>Modern production-ready e-commerce platform with Django & PostgreSQL. Features AJAX cart, user auth with email verification, order tracking, discount system & full admin panel.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Django</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">AJAX</span>
-        </div>
-      </div>
 
       <div class="project-card">
         <div class="project-header">
@@ -1608,6 +1892,13 @@
         </div>
         <h3>EduAssist - AI Learning Assistant</h3>
         <p>Intelligent educational chatbot with automated test evaluation, OCR for test photo grading, adaptive learning system, and performance analytics powered by OpenAI GPT-4.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/eduassist.mp4" data-title="EduAssist - AI Learning Assistant" data-label="Project demo">
+            <img src="videos/eduassist.jpg" alt="EduAssist - AI Learning Assistant — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>3:07</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">FastAPI</span>
           <span class="tech-tag">OpenAI</span>
@@ -1626,6 +1917,13 @@
         </div>
         <h3>Heart Disease Prediction Model</h3>
         <p>ML model for heart disease prediction using multiple algorithms with model comparison, feature importance analysis & production-ready pkl model files for deployment.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/heart-disease.mp4" data-title="Heart Disease Prediction Model" data-label="Project demo">
+            <img src="videos/heart-disease.jpg" alt="Heart Disease Prediction Model — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>0:52</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">Python</span>
           <span class="tech-tag">Scikit-learn</span>
@@ -1643,6 +1941,13 @@
         </div>
         <h3>Job Agent - AI Resume Matcher</h3>
         <p>FastAPI-based AI agent that scrapes job postings, analyzes resumes and generates match scores, cover letters, skill gaps & strengths using LLM integration.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/job-agent.mp4" data-title="Job Agent - AI Resume Matcher" data-label="Project demo">
+            <img src="videos/job-agent.jpg" alt="Job Agent - AI Resume Matcher — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>1:05</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">FastAPI</span>
           <span class="tech-tag">LangChain</span>
@@ -1651,37 +1956,7 @@
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🌤️</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614/python-project" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>Weather App</h3>
-        <p>Real-time weather updates app with clean UI and fast API integration. Shows current weather, forecasts & location-based data.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">REST API</span>
-          <span class="tech-tag">Tkinter</span>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🤖</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614/jarvis_project" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>Jarvis Voice Assistant</h3>
-        <p>Python-based personal voice assistant that listens to commands, performs Google searches, YouTube playback, Gmail access using voice recognition.</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">Speech Recognition</span>
-          <span class="tech-tag">pyttsx3</span>
-        </div>
-      </div>
 
       <div class="project-card">
         <div class="project-header">
@@ -1692,6 +1967,13 @@
         </div>
         <h3>Restaurant Website</h3>
         <p>Complete responsive restaurant website with online ordering, table booking, customer reviews system, WhatsApp integration, Google Maps & full Django admin panel.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/restaurant.mp4" data-title="Restaurant Website" data-label="Project demo">
+            <img src="videos/restaurant.jpg" alt="Restaurant Website — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>3:27</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">Django</span>
           <span class="tech-tag">PostgreSQL</span>
@@ -1700,40 +1982,7 @@
         </div>
       </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🅿️</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>Smart Parking Management System</h3>
-        <p>University capstone built on a self-contained C++ HTTP server (no framework) exposing a JSON REST API for slot allocation, vehicle check-in/check-out and fee calculation, paired with a responsive vanilla-JavaScript dashboard.</p>
-        <div class="project-tech">
-          <span class="tech-tag">C++</span>
-          <span class="tech-tag">cpp-httplib</span>
-          <span class="tech-tag">REST API</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">HTML5</span>
-        </div>
-      </div>
 
-      <div class="project-card">
-        <div class="project-header">
-          <div class="project-icon">🧮</div>
-          <div class="project-links">
-            <a href="https://github.com/danish614" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-          </div>
-        </div>
-        <h3>Neumorphic Dual Calculator</h3>
-        <p>Beautiful calculator with dual-theme support (Dark & Light) featuring neumorphic design, keyboard support, smooth animations — pure vanilla JS, no frameworks.</p>
-        <div class="project-tech">
-          <span class="tech-tag">HTML5</span>
-          <span class="tech-tag">CSS3</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">Neumorphism</span>
-        </div>
-      </div>
 
       <div class="project-card">
         <div class="project-header">
@@ -1744,6 +1993,13 @@
         </div>
         <h3>E-Commerce Price Tracker with API Alert</h3>
         <p>Full-stack price tracking app that monitors Amazon & Daraz prices automatically every 6 hours via Celery Beat. Sends email alerts when price drops below target. Includes price history charts, anti-bot scraping & CLI interface.</p>
+        <div class="demo-row">
+          <button type="button" class="project-demo" data-video="videos/price-tracker.mp4" data-title="E-Commerce Price Tracker with API Alert" data-label="Project demo">
+            <img src="videos/price-tracker.jpg" alt="E-Commerce Price Tracker with API Alert — project demo screen recording" loading="lazy" decoding="async" width="1280" height="720">
+            <span class="demo-play"><span><i class="fas fa-play"></i></span></span>
+            <span class="demo-meta"><b>Project demo</b><i>1:42</i></span>
+          </button>
+        </div>
         <div class="project-tech">
           <span class="tech-tag">FastAPI</span>
           <span class="tech-tag">PostgreSQL</span>
@@ -1756,6 +2012,44 @@
       </div>
 
     </div>
+
+    <div class="also-built">
+      <h3 class="also-title">Also built</h3>
+      <p class="also-desc">5 more shipped projects without a recorded walkthrough — code is on GitHub.</p>
+      <div class="also-grid">
+        <a href="https://github.com/danish614" target="_blank" rel="noopener" class="also-card">
+          <h4>LUXE E-Commerce Store</h4>
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <p>Django storefront with AJAX cart, email verification, order tracking and discounts.</p>
+          <div class="also-tech">Django · PostgreSQL · JavaScript · AJAX</div>
+        </a>
+        <a href="https://github.com/danish614/python-project" target="_blank" rel="noopener" class="also-card">
+          <h4>Weather App</h4>
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <p>Real-time conditions and forecasts with location lookup in a desktop UI.</p>
+          <div class="also-tech">Python · REST API · Tkinter</div>
+        </a>
+        <a href="https://github.com/danish614/jarvis_project" target="_blank" rel="noopener" class="also-card">
+          <h4>Jarvis Voice Assistant</h4>
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <p>Voice commands for Google search, YouTube playback and Gmail.</p>
+          <div class="also-tech">Python · Speech Recognition · pyttsx3</div>
+        </a>
+        <a href="https://github.com/danish614" target="_blank" rel="noopener" class="also-card">
+          <h4>Smart Parking Management System</h4>
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <p>University capstone: a self-contained C++ HTTP server exposing a JSON REST API for slot allocation.</p>
+          <div class="also-tech">C++ · cpp-httplib · REST API · JavaScript · HTML5</div>
+        </a>
+        <a href="https://github.com/danish614" target="_blank" rel="noopener" class="also-card">
+          <h4>Neumorphic Dual Calculator</h4>
+          <i class="fas fa-arrow-up-right-from-square"></i>
+          <p>Dual-theme neumorphic calculator with keyboard support — pure vanilla JS.</p>
+          <div class="also-tech">HTML5 · CSS3 · JavaScript · Neumorphism</div>
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1765,6 +2059,14 @@
     <div class="section-tag">// hire me on fiverr</div>
     <h2 class="section-title">My Fiverr Services</h2>
     <p class="section-desc">Professional services available for hire — fast delivery, 100% satisfaction</p>
+    <div class="acct-note">
+      <i class="fas fa-circle-info"></i>
+      <p><strong>About the name on these gigs:</strong> they are listed under
+      <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" rel="noopener">@asad_ilyas1</a>,
+      my brother <strong>Asad Ilyas</strong>'s Fiverr account. I publish and deliver my work through
+      it, so the seller name differs from mine — the development is done by me, Danish Ilyas.
+      Happy to confirm this over a call before you order.</p>
+    </div>
     <div class="gigs-grid">
       <a href="https://www.fiverr.com/asad_ilyas1/build-custom-ai-agent-and-chatbot-using-langchain-and-openai" target="_blank" class="gig-card">
         <div class="gig-emoji">🤖</div>
@@ -1775,7 +2077,7 @@
       <a href="https://www.fiverr.com/asad_ilyas1/build-custom-ml-model-using-python-pytorch-and-tensorflow" target="_blank" class="gig-card">
         <div class="gig-emoji">📊</div>
         <h3>ML Model Training</h3>
-        <p>Build custom Machine Learning models using Python, PyTorch & TensorFlow with 99.8% accuracy</p>
+        <p>Build and train custom Machine Learning models using Python, PyTorch &amp; TensorFlow — with proper evaluation and clear metrics</p>
         <span class="gig-btn"><i class="fas fa-external-link-alt"></i> View on Fiverr</span>
       </a>
       <a href="https://www.fiverr.com/asad_ilyas1/develop-scalable-python-web-app-with-rest-api-and-automation" target="_blank" class="gig-card">
@@ -1831,7 +2133,7 @@
           <small>github.com/danish614</small>
         </div>
       </a>
-      <a href="https://www.facebook.com/profile.php?id=61593094483253" target="_blank" class="contact-link">
+      <a href="https://www.facebook.com/profile.php?id=61593168644654" target="_blank" class="contact-link">
         <div class="contact-link-icon" style="background:rgba(24,119,242,0.1);color:#1877f2">
           <i class="fab fa-facebook"></i>
         </div>
@@ -1858,7 +2160,7 @@
   <div class="social-links">
     <a href="https://github.com/danish614" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
     <a href="https://www.linkedin.com/in/danish-ilyas-ai/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-    <a href="https://www.facebook.com/profile.php?id=61593094483253" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.facebook.com/profile.php?id=61593168644654" target="_blank" class="social-link"><i class="fab fa-facebook"></i></a>
     <a href="https://www.instagram.com/danish.ilyas.ai/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
     <a href="https://www.fiverr.com/asad_ilyas1" target="_blank" class="social-link"><i class="fas fa-briefcase"></i></a>
     <a href="https://mail.google.com/mail/?view=cm&to=dannish.ilyas9167890@gmail.com" target="_blank" class="social-link"><i class="fas fa-envelope"></i></a>
@@ -2075,6 +2377,61 @@
       el.addEventListener('pointerleave', function () { el.style.transform = ''; });
     });
   }
+})();
+</script>
+
+<!-- VIDEO LIGHTBOX -->
+<div class="vbox" id="vbox" role="dialog" aria-modal="true" aria-labelledby="vboxTitle">
+  <div class="vbox-inner">
+    <div class="vbox-bar">
+      <div class="vbox-title" id="vboxTitle">Demo<small id="vboxLabel"></small></div>
+      <button type="button" class="vbox-close" id="vboxClose" aria-label="Close demo">
+        <i class="fas fa-xmark"></i>
+      </button>
+    </div>
+    <video id="vboxVideo" controls playsinline preload="none"></video>
+  </div>
+</div>
+
+<script>
+/* ---- project video lightbox ---- */
+(function () {
+  var box = document.getElementById('vbox');
+  if (!box) return;
+  var vid = document.getElementById('vboxVideo');
+  var ttl = document.getElementById('vboxTitle');
+  var lbl = document.getElementById('vboxLabel');
+  var last = null;
+
+  function openDemo(btn) {
+    last = btn;
+    ttl.childNodes[0].nodeValue = btn.dataset.title;
+    lbl.textContent = btn.dataset.label;
+    var img = btn.querySelector('img');
+    if (img) vid.poster = img.getAttribute('src');
+    vid.src = btn.dataset.video;
+    box.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    vid.play().catch(function () {});
+  }
+
+  function closeDemo() {
+    box.classList.remove('open');
+    vid.pause();
+    vid.removeAttribute('src');
+    vid.load();
+    document.body.style.overflow = '';
+    if (last) { last.focus(); last = null; }
+  }
+
+  document.querySelectorAll('.project-demo').forEach(function (btn) {
+    btn.addEventListener('click', function () { openDemo(btn); });
+  });
+  document.getElementById('vboxClose').addEventListener('click', closeDemo);
+  box.addEventListener('click', function (e) { if (e.target === box) closeDemo(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && box.classList.contains('open')) closeDemo();
+  });
 })();
 </script>
 
