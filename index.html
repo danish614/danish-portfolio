@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danish Ilyas — AI Agent & Python Developer</title>
-<meta name="description" content="Danish Ilyas — AI Agent & Python Developer from Gujranwala, Pakistan. Building AI agents, WhatsApp & business automation bots, API integrations and full-stack web apps with Python, FastAPI, LangChain and ASP.NET Core.">
+<meta name="description" content="Danish Ilyas — AI Agent & Python Developer from Gujranwala, Pakistan. Building AI agents, WhatsApp & business automation bots, API integrations, GIS / geospatial maps and full-stack web apps with Python, FastAPI, LangChain and ASP.NET Core.">
 <meta name="author" content="Danish Ilyas">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Danish Ilyas — AI Agent & Python Developer">
@@ -98,6 +98,8 @@
   .theme-anim footer,
   .theme-anim .skill-card,
   .theme-anim .project-card,
+  .theme-anim .gis-card,
+  .theme-anim .gis-block,
   .theme-anim .gig-card,
   .theme-anim .contact-link,
   .theme-anim .highlight-item,
@@ -706,6 +708,224 @@
   @media (max-width: 560px) {
     .demo-row.two { grid-template-columns: 1fr; }
     .vbox { padding: 0.9rem; }
+  }
+
+
+  /* ============ GIS SPOTLIGHT (inside skills) ============ */
+  .gis-card {
+    margin-top: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.8rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .gis-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .gis-card:hover { border-color: rgba(0,212,255,0.3); box-shadow: var(--shadow); }
+  .gis-card:hover::before { opacity: 1; }
+
+  .gis-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .gis-icon {
+    width: 48px; height: 48px;
+    flex: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    background: rgba(0,212,255,0.1);
+    border: 1px solid rgba(0,212,255,0.2);
+  }
+  .gis-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+  }
+  .gis-intro {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.3rem;
+    max-width: 82ch;
+  }
+
+  .gis-body {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 1.4rem;
+    align-items: start;
+  }
+
+  /* stands in for a screen recording - this is the one area with no demo video */
+  .gis-demo {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    border: 1px dashed var(--border);
+    background-color: var(--bg2);
+    background-image:
+      radial-gradient(circle at 50% 45%, rgba(0,212,255,0.12), transparent 62%),
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 100% 100%, 26px 26px, 26px 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 1.2rem;
+  }
+  .gis-demo > i {
+    font-size: 1.6rem;
+    color: var(--accent);
+    opacity: 0.85;
+  }
+  .gis-demo b { font-size: 0.86rem; color: var(--text); }
+  .gis-demo span {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    max-width: 36ch;
+  }
+  .gis-demo em {
+    position: absolute;
+    left: 9px; bottom: 9px;
+    font-family: 'Space Mono', monospace;
+    font-style: normal;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.3rem 0.5rem;
+    border-radius: 999px;
+    background: var(--glass);
+    border: 1px solid var(--glass-line);
+  }
+
+  .gis-caps { display: grid; gap: 0.85rem; }
+  .gis-block {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.1rem;
+  }
+  .gis-block h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .gis-block h4 i { color: var(--accent); font-size: 0.8rem; }
+  .gis-block h4 small {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+  .gis-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: 0.6rem 1rem;
+  }
+  .gis-list div { font-size: 0.8rem; color: var(--muted); line-height: 1.45; }
+  .gis-list div b {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.12rem;
+  }
+
+  .gis-flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+    gap: 0.5rem;
+  }
+  .gis-step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 0.75rem;
+  }
+  .gis-step em {
+    font-family: 'Space Mono', monospace;
+    font-style: normal;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+  }
+  .gis-step b {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text);
+    margin: 0.15rem 0 0.2rem;
+  }
+  .gis-step span { font-size: 0.75rem; color: var(--muted); line-height: 1.45; }
+
+  .gis-formats { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .gis-fmt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.3rem 0.7rem;
+  }
+  .gis-fmt i { font-size: 0.6rem; color: var(--accent3); }
+
+  .gis-note {
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.55;
+    margin-top: 0.7rem;
+  }
+  .gis-note b { color: var(--text); font-weight: 600; }
+
+  .gis-tech {
+    margin-top: 1.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 900px) {
+    .gis-body { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .gis-card { padding: 1.3rem; }
+    .gis-block h4 { flex-wrap: wrap; }
+    .gis-block h4 small { margin-left: 0; }
   }
 
 
@@ -1716,6 +1936,78 @@
           <span class="tag purple">JWT Auth</span>
           <span class="tag purple">WebSockets</span>
         </div>
+      </div>
+    </div>
+
+    <!-- GIS SPOTLIGHT -->
+    <div class="gis-card">
+      <div class="gis-head">
+        <div class="gis-icon">🌍</div>
+        <div class="project-links">
+          <span class="project-badge">GIS &middot; Geospatial</span>
+        </div>
+      </div>
+      <h3>GIS &amp; Geospatial Development</h3>
+      <p class="gis-intro">Next to the AI and .NET work I build geospatial features end to end &mdash; taking raw spatial data, processing it, and serving it back as interactive 2D maps and 3D scenes that run in the browser. Cesium-based 3D globes with drawing and measurement tools, Potree pipelines that turn drone and LiDAR scans into point clouds you can fly through, and import / export across every common spatial format on top of PostgreSQL / PostGIS.</p>
+      <div class="gis-body">
+        <div class="gis-demo">
+          <i class="fas fa-video-slash"></i>
+          <b>No screen demo recorded yet</b>
+          <span>The one area I don't have a recording of &mdash; these maps run inside client systems. Happy to walk through it live on a call, or send screenshots and code on request.</span>
+          <em>demo on request</em>
+        </div>
+        <div class="gis-caps">
+
+          <div class="gis-block">
+            <h4><i class="fas fa-globe"></i> Cesium JS &mdash; 3D globe &amp; map UI <small>interactive</small></h4>
+            <div class="gis-list">
+              <div><b>Drawing tools</b>Polygon, polyline and point drawing straight onto the 3D globe, with live editing</div>
+              <div><b>Height measurement</b>Real-world height and elevation readings on terrain and 3D objects</div>
+              <div><b>Distance &amp; area</b>Accurate spatial distance and area calculation in real-world units</div>
+              <div><b>Entity management</b>Add, edit and delete points, labels and geometry entities dynamically</div>
+              <div><b>Layer control</b>Multi-layer maps &mdash; toggle, style and filter each spatial layer</div>
+              <div><b>3D terrain</b>Real-world terrain rendering with fly-to camera navigation</div>
+            </div>
+          </div>
+
+          <div class="gis-block">
+            <h4><i class="fas fa-cubes"></i> Potree point-cloud pipeline <small>las / laz &rarr; webgl</small></h4>
+            <div class="gis-flow">
+              <div class="gis-step"><em>01</em><b>Raw input</b><span>LAS / LAZ scans straight off drones or LiDAR sensors</span></div>
+              <div class="gis-step"><em>02</em><b>Python pipeline</b><span>Custom scripts process, convert and tile the cloud</span></div>
+              <div class="gis-step"><em>03</em><b>Store &amp; index</b><span>Processed tiles stored on disk and indexed in PostgreSQL</span></div>
+              <div class="gis-step"><em>04</em><b>Potree render</b><span>Millions of points streamed and rendered in WebGL</span></div>
+            </div>
+          </div>
+
+          <div class="gis-block">
+            <h4><i class="fas fa-layer-group"></i> Spatial data formats <small>import / export</small></h4>
+            <div class="gis-formats">
+              <span class="gis-fmt">Shapefile .shp <i class="fas fa-right-left"></i></span>
+              <span class="gis-fmt">KML / KMZ <i class="fas fa-right-left"></i></span>
+              <span class="gis-fmt">GeoJSON <i class="fas fa-right-left"></i></span>
+              <span class="gis-fmt">GeoTIFF <i class="fas fa-right-left"></i></span>
+            </div>
+            <p class="gis-note">Upload and parse geometry plus attributes, render it as styled map features, then export drawn geometry back out again &mdash; with per-feature styling, property-based filtering and live layer toggling. <b>Works on Cesium, MapBox, Leaflet and Google Maps.</b></p>
+          </div>
+
+        </div>
+      </div>
+      <div class="gis-tech">
+        <span class="tech-tag">Cesium JS</span>
+        <span class="tech-tag">Potree</span>
+        <span class="tech-tag">MapBox</span>
+        <span class="tech-tag">Leaflet</span>
+        <span class="tech-tag">Google Maps</span>
+        <span class="tech-tag">GeoServer</span>
+        <span class="tech-tag">Point Cloud</span>
+        <span class="tech-tag">GeoJSON</span>
+        <span class="tech-tag">Shapefile</span>
+        <span class="tech-tag">KML</span>
+        <span class="tech-tag">GeoTIFF</span>
+        <span class="tech-tag">PostGIS</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">FastAPI</span>
       </div>
     </div>
   </div>
